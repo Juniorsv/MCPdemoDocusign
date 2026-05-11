@@ -287,7 +287,7 @@ app.post("/api/chat", async (req, res) => {
           "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
-          model: "claude-sonnet-4-20250514",
+          model: "claude-sonnet-4-6-20250514",
           max_tokens: 4096,
           system: SYSTEM_PROMPT,
           messages: session.messages,
@@ -336,7 +336,7 @@ app.post("/api/chat", async (req, res) => {
             "anthropic-version": "2023-06-01",
           },
           body: JSON.stringify({
-            model: "claude-sonnet-4-20250514",
+            model: "claude-sonnet-4-6-20250514",
             max_tokens: 4096,
             system: SYSTEM_PROMPT,
             messages: currentMessages,

@@ -18,7 +18,7 @@ const DS_CONFIG = {
   userId: process.env.DOCUSIGN_USER_ID,
   accountId: process.env.DOCUSIGN_ACCOUNT_ID,
   rsaPrivateKey: process.env.DOCUSIGN_RSA_PRIVATE_KEY
-    ? Buffer.from(process.env.DOCUSIGN_RSA_PRIVATE_KEY, "base64").toString("utf-8")
+    ? process.env.DOCUSIGN_RSA_PRIVATE_KEY.replace(/\\n/g, "\n")
     : null,
   basePath: "https://demo.docusign.net/restapi",
   oauthBasePath: "https://account-d.docusign.com",

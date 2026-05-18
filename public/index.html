@@ -14,32 +14,42 @@
 :root {
   /* DocuSign brand */
   --ds-yellow: #FFCC22;
-  --ds-yellow-soft: #FFF4CC;
-  --ds-yellow-deep: #B89000;
-  --ds-blue: #0066FF;
+  --ds-yellow-soft: rgba(255, 204, 34, 0.12);
+  --ds-yellow-deep: #d4a800;
+  --ds-blue: #4D8FFF;
 
-  /* Ink scale */
+  /* Ink scale — dark mode */
   --ink: #1A1A1A;
   --ink-2: #4A4A4A;
   --ink-3: #8A8A8A;
   --ink-4: #B8B8B8;
 
-  /* Surfaces */
-  --bg: #FAFAFA;
-  --surface: #FFFFFF;
-  --surface-2: #F4F4F4;
-  --border: #E8E8E8;
-  --border-2: #D0D0D0;
+  /* Surfaces — dark */
+  --bg: #0c0c14;
+  --surface: #13131e;
+  --surface-2: #1c1c2a;
+  --border: #252535;
+  --border-2: #353550;
 
-  /* Semantic */
-  --success: #00875A;
-  --success-bg: #E6F5EE;
-  --warn: #B85C00;
-  --warn-bg: #FFF1DD;
-  --info: #0052CC;
-  --info-bg: #E6EEFA;
-  --danger: #C9302C;
-  --danger-bg: #FBE9E9;
+  /* Ink scale — flipped to light for dark mode text */
+  --ink: #e2e2ee;
+  --ink-2: #a0a0b8;
+  --ink-3: #5c5c70;
+  --ink-4: #3a3a4e;
+
+  /* Fixed dark values for backgrounds that must stay dark */
+  --dark-solid: #1A1A1A;
+  --darker-solid: #0d0d0d;
+
+  /* Semantic — dark-adjusted */
+  --success: #2dd690;
+  --success-bg: rgba(45, 214, 144, 0.12);
+  --warn: #ffb340;
+  --warn-bg: rgba(255, 179, 64, 0.12);
+  --info: #5ba3ff;
+  --info-bg: rgba(91, 163, 255, 0.12);
+  --danger: #ff6b6b;
+  --danger-bg: rgba(255, 107, 107, 0.12);
 
   --radius: 8px;
   --radius-lg: 12px;
@@ -57,7 +67,16 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
-body { min-height: 100vh; }
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 12% 20%, rgba(255,204,34,0.09) 0%, transparent 52%),
+    radial-gradient(ellipse at 88% 78%, rgba(0,102,255,0.10) 0%, transparent 52%),
+    radial-gradient(ellipse at 65% 10%, rgba(255,204,34,0.05) 0%, transparent 42%),
+    radial-gradient(ellipse at 30% 88%, rgba(77,143,255,0.08) 0%, transparent 48%),
+    radial-gradient(ellipse at 50% 50%, rgba(255,204,34,0.03) 0%, transparent 70%),
+    var(--bg);
+}
 button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
 input, textarea { font-family: inherit; }
 pre, code { font-family: var(--font-mono); }
@@ -606,14 +625,355 @@ pre, code { font-family: var(--font-mono); }
 
 /* ─── Footer ─── */
 .footer {
-  text-align: center; padding: 28px 0 8px;
+  text-align: center; padding: 20px 0 8px;
   font-size: 11px; color: var(--ink-3);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
 }
 .footer a { color: var(--ink-2); text-decoration: none; font-weight: 500; }
 .footer a:hover { color: var(--ds-yellow-deep); }
 
+/* ─── Logs toggle button ─── */
+.logs-toggle {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600;
+  padding: 5px 10px; border-radius: 6px;
+  border: 1px solid var(--border-2);
+  color: var(--ink-2); background: transparent;
+  transition: all 0.15s; cursor: pointer;
+}
+.logs-toggle:hover { border-color: var(--ds-yellow); color: var(--ink); }
+.logs-toggle.active { background: var(--ds-yellow-soft); border-color: var(--ds-yellow); color: var(--ds-yellow); }
+.logs-toggle svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ─── Collapsible MCP blocks ─── */
+.mcp-block { cursor: pointer; }
+.mcp-summary {
+  display: flex; align-items: center; gap: 8px;
+}
+.mcp-chevron {
+  margin-left: auto;
+  width: 12px; height: 12px;
+  stroke: var(--ink-3); fill: none; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.mcp-detail { display: none; margin-top: 8px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px; }
+.mcp-block.expanded .mcp-detail { display: block; }
+.mcp-block.expanded .mcp-chevron { transform: rotate(180deg); }
+
+.mcp-result-header { cursor: pointer; }
+.mcp-result-body { display: none; }
+.mcp-result.expanded .mcp-result-body { display: block; }
+.mcp-result-chevron {
+  margin-left: auto;
+  width: 11px; height: 11px;
+  stroke: var(--ds-yellow-deep); fill: none; stroke-width: 2.5;
+  stroke-linecap: round; stroke-linejoin: round;
+  transition: transform 0.2s;
+}
+.mcp-result.expanded .mcp-result-chevron { transform: rotate(180deg); }
+
+/* Hidden when logs are off */
+.mcp-block.logs-hidden, .mcp-result.logs-hidden { display: none !important; }
+
 /* Icons via SVG inline */
 .svg-icon { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ─── Dark mode — hardcoded dark backgrounds ─── */
+.brand-logo        { background: var(--dark-solid) !important; }
+.mode-btn.active   { background: var(--dark-solid) !important; color: var(--ds-yellow) !important; }
+.panel-icon        { background: var(--dark-solid) !important; }
+.msg-user .bubble  { background: var(--dark-solid) !important; color: #f0f0f0 !important; }
+.send-btn          { background: var(--dark-solid) !important; }
+.send-btn:hover:not(:disabled) { background: var(--darker-solid) !important; }
+.code-box          { background: var(--dark-solid) !important; }
+.mcp-block         { background: var(--dark-solid) !important; }
+::selection        { background: var(--ds-yellow); color: var(--dark-solid); }
+
+/* ─── Dark mode — input ─── */
+.input-bar input {
+  background: var(--surface-2) !important;
+  border-color: var(--border) !important;
+  color: var(--ink) !important;
+}
+.input-bar input::placeholder { color: var(--ink-3); }
+
+/* ─── Dark mode — scrollbar ─── */
+::-webkit-scrollbar-thumb { background: var(--border-2); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+
+/* ─── Dark mode — misc fixes ─── */
+.mode-toggle { background: var(--surface-2) !important; border-color: var(--border) !important; }
+.mode-btn { color: var(--ink-2) !important; }
+.tab { color: var(--ink-3) !important; }
+.tab:hover { color: var(--ink-2) !important; }
+.tab.active { color: var(--ink) !important; }
+.sc-btn { background: var(--surface-2) !important; }
+.sc-btn:hover { background: var(--ds-yellow-soft) !important; border-color: var(--ds-yellow) !important; }
+.sc-btn h4 { color: var(--ink) !important; }
+.sc-btn p  { color: var(--ink-3) !important; }
+.sidebar-reset { color: var(--ink-3) !important; border-color: var(--border-2) !important; }
+.sidebar-reset:hover { color: var(--danger) !important; border-color: var(--danger) !important; }
+.arch-conn .cl { background: var(--surface-2) !important; color: var(--ink-2) !important; }
+.msg-ai .bubble { background: var(--surface-2) !important; border-color: var(--border) !important; }
+.typing { background: var(--surface-2) !important; border-color: var(--border-2) !important; color: var(--ink-2) !important; }
+.chat-bar { background: var(--surface) !important; }
+.empty-state { color: var(--ink-2) !important; }
+.empty-state strong { color: var(--ink) !important; }
+
+/* ─── Depth / elevation ─── */
+.header {
+  box-shadow: 0 2px 24px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+  background: linear-gradient(148deg, #17172a 0%, #13131e 100%);
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 4px;
+  height: 2px;
+  background: linear-gradient(to right, var(--ds-yellow) 0%, transparent 70%);
+  border-radius: 0 0 0 var(--radius-lg);
+}
+.sidebar,
+.chat-wrap {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 6px 20px rgba(0,0,0,0.05);
+}
+.tool-card {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 14px rgba(0,0,0,0.05);
+}
+.tool-card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+  transform: translateY(-3px);
+}
+.benefit {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 4px 12px rgba(0,0,0,0.05);
+  transition: all 0.2s;
+}
+.benefit:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.09);
+  transform: translateY(-2px);
+}
+.arch-node {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 14px rgba(0,0,0,0.05);
+}
+
+/* ─── Header brand (bigger, more impact) ─── */
+.brand-text h1 {
+  font-size: 26px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.8px !important;
+}
+.brand-logo {
+  width: 48px !important; height: 48px !important;
+  font-size: 17px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+}
+
+/* ─── Metric cards ─── */
+.metric {
+  transition: all 0.2s;
+  cursor: default;
+}
+.metric:hover {
+  border-color: var(--ds-yellow);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(255,204,34,0.18);
+}
+.metric .value {
+  font-size: 28px !important;
+}
+
+/* ─── Panel headings ─── */
+.panel-heading {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 17px; font-weight: 700; color: var(--ink);
+  margin-bottom: 4px; letter-spacing: -0.4px;
+}
+.panel-icon {
+  width: 30px; height: 30px;
+  background: var(--ink); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.panel-icon svg { width: 14px; height: 14px; stroke: var(--ds-yellow); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.panel-sub {
+  font-size: 13px; color: var(--ink-3);
+  margin-bottom: 20px; padding-left: 42px; line-height: 1.5;
+}
+
+/* ─── Divider line after panel heading ─── */
+.panel-divider {
+  height: 1px; margin: 0 0 20px;
+  background: linear-gradient(to right, var(--border-2) 0%, transparent 80%);
+}
+
+/* ─── Tool card category left border ─── */
+.tool-card-read  { border-left: 3px solid var(--info); }
+.tool-card-write { border-left: 3px solid var(--warn); }
+.tool-card-danger{ border-left: 3px solid var(--danger); }
+
+/* ─── Architecture: numbered badges ─── */
+.arch-badge {
+  width: 24px; height: 24px; flex-shrink: 0;
+  background: var(--ds-yellow); color: var(--ink);
+  border-radius: 50%; font-size: 11px; font-weight: 800;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-right: 8px; box-shadow: 0 2px 6px rgba(255,204,34,0.4);
+}
+.arch-node-header { display: flex; align-items: center; margin-bottom: 5px; }
+.arch-node h3 { margin-bottom: 0 !important; }
+.arch-node p { padding-left: 32px; }
+
+/* ─── Benefits: icon chip ─── */
+.benefit-icon {
+  width: 34px; height: 34px;
+  background: var(--ds-yellow-soft); border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255,204,34,0.3);
+}
+.benefit-icon svg { width: 16px; height: 16px; stroke: var(--ds-yellow-deep); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ─── Avatars ─── */
+.avatar {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; letter-spacing: -0.3px;
+  align-self: flex-end;
+}
+.avatar-user {
+  background: linear-gradient(135deg, var(--ds-yellow) 0%, #c49800 100%);
+  color: #1A1A1A;
+  box-shadow: 0 0 0 2px rgba(255,204,34,0.25), 0 2px 10px rgba(255,204,34,0.25);
+}
+.avatar-agent {
+  background: var(--dark-solid);
+  color: var(--ds-yellow);
+  border: 1px solid var(--border-2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  font-size: 10px;
+}
+
+/* ─── User bubble spotlight ─── */
+.msg-user .bubble {
+  background: linear-gradient(140deg, #1e1e32 0%, #18182c 100%) !important;
+  color: #eeeef8 !important;
+  border: 1px solid rgba(255,204,34,0.18) !important;
+  box-shadow: 0 0 0 1px rgba(255,204,34,0.06), 0 4px 20px rgba(0,0,0,0.4) !important;
+  position: relative;
+  overflow: hidden;
+}
+.msg-user .bubble::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent 10%, rgba(255,204,34,0.5) 50%, transparent 90%);
+}
+
+/* ─── Empty state illustration ─── */
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 48px 24px; gap: 0;
+}
+.empty-illustration {
+  width: 120px; height: 140px; margin-bottom: 20px;
+  filter: drop-shadow(0 8px 24px rgba(255,204,34,0.15));
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+.empty-title {
+  font-size: 15px; font-weight: 600; color: var(--ink);
+  margin-bottom: 8px; letter-spacing: -0.2px;
+}
+.empty-desc {
+  font-size: 13px; color: var(--ink-2); text-align: center; line-height: 1.6;
+}
+.empty-desc strong { color: var(--ink); font-weight: 600; }
+
+/* ─── Input wrap + char counter ─── */
+.input-wrap { flex: 1; position: relative; }
+.input-wrap input { width: 100%; }
+.char-count {
+  position: absolute; right: 10px; bottom: -17px;
+  font-size: 10px; color: var(--ink-3);
+  font-family: var(--font-mono); pointer-events: none;
+  opacity: 0; transition: opacity 0.2s;
+}
+.char-count.visible { opacity: 1; }
+.char-count.warn { color: var(--warn); }
+.char-count.over  { color: var(--danger); }
+
+/* ─── Copy button on agent messages ─── */
+.src { justify-content: space-between !important; }
+.copy-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--ink-3); padding: 2px 5px; border-radius: 4px;
+  display: flex; align-items: center; gap: 3px;
+  transition: all 0.15s; font-size: 10px; font-family: var(--font-sans);
+  margin-left: auto;
+}
+.copy-btn:hover { color: var(--ink); background: var(--border); }
+.copy-btn.copied { color: var(--success); }
+.copy-btn svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ─── Cold start banner ─── */
+.cold-banner {
+  font-size: 11px; color: var(--warn); margin-top: 6px;
+  padding: 5px 10px; border-radius: 6px;
+  background: var(--warn-bg); border: 1px solid rgba(255,179,64,0.2);
+  text-align: center; display: none;
+}
+.cold-banner.show { display: block; }
+
+/* ─── Timestamps ─── */
+.msg-time {
+  font-size: 10px; color: var(--ink-3); margin-top: 6px;
+  font-family: var(--font-mono); text-align: right;
+}
+.msg-ai .msg-time { text-align: left; }
+
+/* ─── Scroll-to-bottom button ─── */
+.scroll-btn {
+  position: absolute; right: 14px; bottom: 68px;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--surface-2); border: 1px solid var(--border-2);
+  display: none; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+  transition: all 0.2s; z-index: 10;
+}
+.scroll-btn.show { display: flex; }
+.scroll-btn:hover { border-color: var(--ds-yellow); }
+.scroll-btn svg { width: 13px; height: 13px; stroke: var(--ink-2); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ─── Toast ─── */
+.toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--surface-2); color: var(--ink);
+  border: 1px solid var(--border-2); padding: 8px 20px;
+  border-radius: 20px; font-size: 12px; font-weight: 500;
+  opacity: 0; transition: all 0.25s; pointer-events: none; z-index: 9998;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4); white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ─── Code box copy button ─── */
+.code-box-wrap { position: relative; }
+.code-copy-btn {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  color: #8A8A8A; border-radius: 6px; width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.15s; z-index: 1;
+}
+.code-copy-btn:hover { color: #e0e0e0; border-color: var(--ds-yellow); }
+.code-copy-btn.copied { color: var(--success); border-color: var(--success); }
+.code-copy-btn svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 </style>
 </head>
 <body>
@@ -637,10 +997,10 @@ pre, code { font-family: var(--font-mono); }
         </div>
       </div>
       <div class="mode-toggle">
-        <button class="mode-btn active" id="mode-demo" data-mode="demo" onclick="setMode('demo')">
+        <button class="mode-btn active" id="mode-demo" data-mode="demo" aria-pressed="true">
           <span class="pulse"></span> Demo
         </button>
-        <button class="mode-btn" id="mode-live" data-mode="live" onclick="setMode('live')">
+        <button class="mode-btn" id="mode-live" data-mode="live" aria-pressed="false">
           <span class="pulse"></span> En vivo
         </button>
       </div>
@@ -733,90 +1093,134 @@ pre, code { font-family: var(--font-mono); }
           </div>
         </button>
 
-        <button class="sidebar-reset" id="btn-reset" onclick="resetChat()">Limpiar conversación</button>
+        <button class="sidebar-reset" id="btn-reset">Limpiar conversación</button>
       </div>
 
-      <div class="chat-wrap">
+      <div class="chat-wrap" style="position:relative">
         <div class="chat-bar">
           <div class="chat-bar-left">
             <span class="live-dot"></span>
-            Agente MCP conectado
-            <span class="mode-label demo" id="chat-mode-label">Modo demo</span>
+            Agente MCP
+            <span class="mode-label demo" id="chat-mode-label">Demo</span>
           </div>
-          <div class="chat-bar-right" id="chat-meta">
-            claude-haiku-4.5
+          <div class="chat-bar-right" style="gap:8px">
+            <button class="logs-toggle active" id="logs-toggle" title="Mostrar / ocultar trazas MCP">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              Trazas MCP
+            </button>
+            <span id="chat-meta" style="font-size:10px;color:var(--ink-3);font-family:var(--font-mono)">claude-haiku-4.5</span>
           </div>
         </div>
 
-        <div class="messages" id="messages">
+        <div class="messages" id="messages" aria-live="polite" aria-label="Conversación con el agente">
           <div class="empty-state">
-            <div class="big">⚡</div>
-            Escribe un mensaje o selecciona un <strong>escenario</strong><br>
-            para interactuar con DocuSign vía MCP
+            <div class="empty-illustration">
+              <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+                <!-- Document -->
+                <rect x="8" y="8" width="104" height="124" rx="10" fill="rgba(255,204,34,0.05)" stroke="rgba(255,204,34,0.18)" stroke-width="1.5"/>
+                <!-- Header band -->
+                <rect x="8" y="8" width="104" height="30" rx="10" fill="rgba(255,204,34,0.10)"/>
+                <rect x="8" y="28" width="104" height="10" fill="rgba(255,204,34,0.10)"/>
+                <!-- DS label -->
+                <text x="60" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="800" fill="#FFCC22">DocuSign</text>
+                <!-- Text lines -->
+                <rect x="20" y="50" width="80" height="3" rx="1.5" fill="rgba(255,255,255,0.10)"/>
+                <rect x="20" y="60" width="64" height="3" rx="1.5" fill="rgba(255,255,255,0.07)"/>
+                <rect x="20" y="70" width="72" height="3" rx="1.5" fill="rgba(255,255,255,0.07)"/>
+                <rect x="20" y="80" width="52" height="3" rx="1.5" fill="rgba(255,255,255,0.07)"/>
+                <!-- Signature zone -->
+                <line x1="20" y1="112" x2="84" y2="112" stroke="rgba(255,204,34,0.35)" stroke-width="1" stroke-dasharray="3,3"/>
+                <text x="20" y="124" font-family="Arial, sans-serif" font-size="8" fill="rgba(255,204,34,0.45)">Firma aquí</text>
+                <!-- Signature stroke -->
+                <path d="M 26 106 Q 36 96 46 106 Q 56 116 66 103 Q 74 93 80 103" stroke="rgba(255,204,34,0.75)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- Pen -->
+                <g transform="translate(98,95) rotate(-35)">
+                  <rect x="-3" y="-14" width="6" height="14" rx="2" fill="#FFCC22" opacity="0.85"/>
+                  <polygon points="0,-16 -3,-13 3,-13" fill="#FFCC22" opacity="0.85"/>
+                  <rect x="-3" y="0" width="6" height="4" rx="1" fill="rgba(255,255,255,0.3)"/>
+                </g>
+                <!-- Glow dot -->
+                <circle cx="98" cy="95" r="10" fill="rgba(255,204,34,0.07)"/>
+              </svg>
+            </div>
+            <div class="empty-title">Listo para trabajar</div>
+            <div class="empty-desc">Escribe un mensaje o selecciona un <strong>escenario</strong><br>para interactuar con DocuSign vía MCP</div>
           </div>
         </div>
 
         <div class="input-bar">
-          <input type="text" id="chat-input" placeholder="Ej: Muéstrame los contratos pendientes de los últimos 7 días…" autocomplete="off">
-          <button class="send-btn" id="send-btn" onclick="sendMessage()">
+          <div class="input-wrap">
+            <input type="text" id="chat-input" placeholder="Pregúntale algo a DocuSign…" autocomplete="off">
+            <span class="char-count" id="char-count"></span>
+          </div>
+          <button class="send-btn" id="send-btn" aria-label="Enviar mensaje">
             Enviar
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
         </div>
+        <div class="cold-banner" id="cold-banner">
+          El servidor está arrancando… esto puede tardar hasta 30 segundos la primera vez.
+        </div>
+        <button class="scroll-btn" id="scroll-bottom" aria-label="Ir al final">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
       </div>
     </div>
   </div>
 
   <!-- ═══ TOOLS ═══ -->
   <div class="panel" id="panel-tools">
-    <p class="tools-intro">
-      El backend expone estas herramientas que el agente de IA puede invocar vía Model Context Protocol.
-      En <strong>modo demo</strong> usan datos simulados; en <strong>modo en vivo</strong> ejecutan acciones reales en tu cuenta DocuSign sandbox.
-    </p>
+    <div class="panel-heading" style="margin-bottom:4px">
+      <span class="panel-icon">
+        <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+      </span>
+      Herramientas MCP
+    </div>
+    <div class="panel-divider"></div>
     <div class="tools-grid">
-      <div class="tool-card">
+      <div class="tool-card tool-card-read">
         <div class="tc-top">
           <span class="tc-name">search_envelopes</span>
           <span class="tc-cat cat-read">read</span>
         </div>
         <div class="tc-desc">Busca sobres por texto, estado o rango de fecha.</div>
       </div>
-      <div class="tool-card">
+      <div class="tool-card tool-card-read">
         <div class="tc-top">
           <span class="tc-name">get_envelope</span>
           <span class="tc-cat cat-read">read</span>
         </div>
         <div class="tc-desc">Obtiene detalles completos de un envelope por ID.</div>
       </div>
-      <div class="tool-card">
+      <div class="tool-card tool-card-read">
         <div class="tc-top">
           <span class="tc-name">get_envelope_recipients</span>
           <span class="tc-cat cat-read">read</span>
         </div>
         <div class="tc-desc">Lista firmantes y destinatarios con su estado actual.</div>
       </div>
-      <div class="tool-card">
+      <div class="tool-card tool-card-read">
         <div class="tc-top">
           <span class="tc-name">list_templates</span>
           <span class="tc-cat cat-read">read</span>
         </div>
         <div class="tc-desc">Lista templates disponibles con filtro opcional por nombre.</div>
       </div>
-      <div class="tool-card">
+      <div class="tool-card tool-card-write">
         <div class="tc-top">
           <span class="tc-name">create_envelope_from_template</span>
           <span class="tc-cat cat-write">write</span>
         </div>
         <div class="tc-desc">Crea y envía un envelope desde template con firmantes y subject.</div>
       </div>
-      <div class="tool-card">
+      <div class="tool-card tool-card-write">
         <div class="tc-top">
           <span class="tc-name">send_reminder</span>
           <span class="tc-cat cat-write">write</span>
         </div>
         <div class="tc-desc">Envía recordatorio de firma a firmantes pendientes.</div>
       </div>
-      <div class="tool-card">
+      <div class="tool-card tool-card-danger">
         <div class="tc-top">
           <span class="tc-name">void_envelope</span>
           <span class="tc-cat cat-danger">danger</span>
@@ -825,6 +1229,10 @@ pre, code { font-family: var(--font-mono); }
       </div>
     </div>
 
+    <div class="code-box-wrap">
+    <button class="code-copy-btn" id="code-copy-btn" aria-label="Copiar configuración" title="Copiar">
+      <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    </button>
     <div class="code-box">
       <span class="cc">// Configuración del MCP Server en un cliente compatible</span><br>
       {<br>
@@ -840,396 +1248,93 @@ pre, code { font-family: var(--font-mono); }
       &nbsp;&nbsp;}<br>
       }
     </div>
+    </div><!-- /code-box-wrap -->
   </div>
 
   <!-- ═══ ARCHITECTURE ═══ -->
   <div class="panel" id="panel-arch">
-    <p class="tools-intro">
-      El protocolo MCP permite que <strong>cualquier agente de IA</strong> se conecte de forma estándar
-      a la plataforma DocuSign para ejecutar acciones sobre acuerdos sin código de integración custom.
-    </p>
+    <div class="panel-heading" style="margin-bottom:4px">
+      <span class="panel-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </span>
+      Arquitectura MCP
+    </div>
+    <div class="panel-divider"></div>
     <div class="arch-flow">
       <div class="arch-node">
-        <h3>Usuario / Agente de IA</h3>
+        <div class="arch-node-header">
+          <span class="arch-badge">1</span>
+          <h3>Usuario / Agente de IA</h3>
+        </div>
         <p>Claude, ChatGPT, Copilot, VS Code, agentes custom</p>
       </div>
       <div class="arch-conn"><span class="cl">MCP Protocol · JSON-RPC</span></div>
       <div class="arch-node">
-        <h3>DocuSign MCP Server</h3>
+        <div class="arch-node-header">
+          <span class="arch-badge">2</span>
+          <h3>DocuSign MCP Server</h3>
+        </div>
         <p>OAuth 2.0 · Scopes granulares · Tools, Resources, Prompts</p>
       </div>
       <div class="arch-conn"><span class="cl">REST API</span></div>
       <div class="arch-node">
-        <h3>DocuSign APIs</h3>
+        <div class="arch-node-header">
+          <span class="arch-badge">3</span>
+          <h3>DocuSign APIs</h3>
+        </div>
         <p>eSignature · Navigator · Maestro · Admin · Identify</p>
       </div>
       <div class="arch-conn"><span class="cl">Plataforma</span></div>
       <div class="arch-node">
-        <h3>DocuSign IAM Platform</h3>
+        <div class="arch-node-header">
+          <span class="arch-badge">4</span>
+          <h3>DocuSign IAM Platform</h3>
+        </div>
         <p>Acuerdos · Workflows · Análisis IA · Templates · Audit</p>
       </div>
     </div>
     <div class="benefits">
       <div class="benefit">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
         <h4>Protocolo estándar abierto</h4>
         <p>Un adaptador universal. Sin integraciones punto a punto.</p>
       </div>
       <div class="benefit">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
         <h4>Seguridad OAuth 2.0</h4>
         <p>Scopes granulares. JWT para operación headless.</p>
       </div>
       <div class="benefit">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
         <h4>Sin código custom</h4>
         <p>Cualquier cliente MCP compatible se conecta al instante.</p>
       </div>
       <div class="benefit">
+        <div class="benefit-icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </div>
         <h4>Extensible</h4>
         <p>Combina con Extension Apps, Maestro y APIs propias.</p>
       </div>
     </div>
   </div>
 
+  <div class="toast" id="toast" role="status"></div>
+
   <div class="footer">
-    DocuSign MCP Agent · Demo de preventa ·
+    <span>DocuSign MCP Agent</span>
+    <span style="color:var(--border-2)">·</span>
     <a href="https://developers.docusign.com/platform/mcp-server/" target="_blank" rel="noopener">Documentación oficial</a>
   </div>
 
 </div>
 
-<script>
-// ─── State ──────────────────────────────────────────────────
-let currentMode = 'demo';
-let isProcessing = false;
-let sessionId = null; // se asigna desde el server en la primera respuesta
-
-const msgEl = document.getElementById('messages');
-const inputEl = document.getElementById('chat-input');
-const sendBtn = document.getElementById('send-btn');
-
-// ─── Init ───────────────────────────────────────────────────
-window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('loader').classList.add('hidden'), 600);
-  startMetricsTicker();
-  checkStatus();
-});
-
-// ─── Status check ───────────────────────────────────────────
-async function checkStatus() {
-  try {
-    const res = await fetch('/api/status');
-    if (!res.ok) return;
-    const data = await res.json();
-    const meta = document.getElementById('chat-meta');
-    if (data.docusign_connected) {
-      meta.innerHTML = `claude-haiku-4.5 · DocuSign ✓ ${esc(data.docusign_user || '')}`;
-    }
-  } catch (e) { /* silencioso */ }
-}
-
-// ─── Live metrics ticker (mock, refresca cada 8s con variación) ───
-const baseMetrics = { envelopes: 142, pending: 38, idv: 1247, workflows: 7 };
-function startMetricsTicker() {
-  setInterval(() => {
-    const env = baseMetrics.envelopes + Math.floor(Math.random() * 4) - 1;
-    const pen = baseMetrics.pending + Math.floor(Math.random() * 3) - 1;
-    const idv = baseMetrics.idv + Math.floor(Math.random() * 5);
-    document.getElementById('metric-envelopes').textContent = env;
-    document.getElementById('metric-pending').textContent = pen;
-    document.getElementById('metric-idv').textContent = idv.toLocaleString('es-MX');
-    baseMetrics.idv = idv;
-  }, 8000);
-}
-
-// ─── Tabs ───────────────────────────────────────────────────
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(p => p.classList.remove('show'));
-    tab.classList.add('active');
-    document.getElementById('panel-' + tab.dataset.tab).classList.add('show');
-  });
-});
-
-// ─── Mode toggle ────────────────────────────────────────────
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById('mode-demo').classList.toggle('active', mode === 'demo');
-  document.getElementById('mode-live').classList.toggle('active', mode === 'live');
-  const label = document.getElementById('chat-mode-label');
-  if (mode === 'live') {
-    label.textContent = 'En vivo';
-    label.className = 'mode-label live';
-  } else {
-    label.textContent = 'Modo demo';
-    label.className = 'mode-label demo';
-  }
-}
-
-// ─── Scenario buttons ───────────────────────────────────────
-document.querySelectorAll('.sc-btn[data-prompt]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (isProcessing) return;
-    inputEl.value = btn.dataset.prompt;
-    sendMessage();
-  });
-});
-
-// ─── Send message ───────────────────────────────────────────
-inputEl.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-});
-
-async function sendMessage() {
-  const text = inputEl.value.trim();
-  if (!text || isProcessing) return;
-
-  isProcessing = true;
-  sendBtn.disabled = true;
-  inputEl.value = '';
-
-  // Clear empty state
-  const empty = msgEl.querySelector('.empty-state');
-  if (empty) empty.remove();
-
-  addMsg('user', text);
-  const typingId = showTyping('Procesando con Claude + DocuSign MCP…');
-
-  try {
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, sessionId, mode: currentMode }),
-    });
-
-    removeTyping(typingId);
-
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      throw new Error(err.detail || err.error || 'Error del servidor');
-    }
-
-    const data = await res.json();
-    if (data.sessionId) sessionId = data.sessionId;
-
-    // Show tool trace, sequentially with brief delay so it feels alive
-    if (data.tools && data.tools.length > 0) {
-      for (const t of data.tools) {
-        if (t.tool) {
-          addMcpCall(t.tool, t.input);
-          await sleep(280);
-        }
-        if (t.result) {
-          addMcpResult(t.result);
-          await sleep(280);
-        }
-      }
-    }
-
-    if (data.text) addMsg('assistant', data.text);
-
-  } catch (err) {
-    removeTyping(typingId);
-    addMsg('assistant', '⚠️ Error: ' + err.message + '\n\nVerifica que la variable ANTHROPIC_API_KEY esté configurada en Render.');
-  }
-
-  isProcessing = false;
-  sendBtn.disabled = false;
-  inputEl.focus();
-}
-
-// ─── Chat helpers ───────────────────────────────────────────
-function addMsg(role, text) {
-  const div = document.createElement('div');
-  if (role === 'user') {
-    div.className = 'msg msg-user';
-    div.innerHTML = `<div class="bubble">${esc(text)}</div>`;
-  } else {
-    div.className = 'msg msg-ai';
-    const formatted = esc(text).replace(/\n/g, '<br>');
-    div.innerHTML = `<div class="bubble"><div class="src">Agente MCP</div>${formatted}</div>`;
-  }
-  msgEl.appendChild(div);
-  msgEl.scrollTop = msgEl.scrollHeight;
-}
-
-function addMcpCall(tool, input) {
-  const div = document.createElement('div');
-  div.className = 'msg';
-  const inputStr = (typeof input === 'string') ? input : JSON.stringify(input, null, 2);
-  div.innerHTML = `<div class="mcp-block">
-    <div class="mcp-badge">
-      <span class="tag">MCP</span>
-      <span>tool_use →</span>
-      <span class="fn">${esc(tool)}</span>
-    </div>
-    <pre>${esc(inputStr)}</pre>
-  </div>`;
-  msgEl.appendChild(div);
-  msgEl.scrollTop = msgEl.scrollHeight;
-}
-
-function addMcpResult(result) {
-  const div = document.createElement('div');
-  div.className = 'msg';
-
-  let data = result;
-  if (typeof result === 'string') {
-    try { data = JSON.parse(result); } catch { data = { raw: result }; }
-  }
-
-  let inner = '';
-  let resultCount = '';
-
-  // Envelopes list (from search_envelopes)
-  if (data.envelopes && Array.isArray(data.envelopes)) {
-    resultCount = ` · ${data.envelopes.length} resultado${data.envelopes.length === 1 ? '' : 's'}`;
-    inner = data.envelopes.map(e => {
-      const status = e.status || 'unknown';
-      const pillClass = status === 'completed' ? 'pill-green'
-        : status === 'voided' || status === 'declined' ? 'pill-red'
-        : status === 'pending' || status === 'sent' || status === 'created' ? 'pill-amber'
-        : 'pill-blue';
-      return `<div class="result-item">
-        <div class="ri-name">${esc(e.subject || e.name || 'Sin asunto')}</div>
-        <div class="ri-meta">
-          <span class="pill ${pillClass}">${esc(status)}</span>
-          ${e.signers_progress ? `<span class="meta-sm">${esc(e.signers_progress)} firmas</span>` : ''}
-          ${e.created ? `<span class="meta-sm">${esc(formatDate(e.created))}</span>` : ''}
-          ${e.envelope_id ? `<span class="meta-sm">${esc(e.envelope_id)}</span>` : ''}
-        </div>
-      </div>`;
-    }).join('');
-  }
-  // Templates list
-  else if (data.templates && Array.isArray(data.templates)) {
-    resultCount = ` · ${data.templates.length} template${data.templates.length === 1 ? '' : 's'}`;
-    inner = data.templates.map(t => `
-      <div class="result-item">
-        <div class="ri-name">${esc(t.name)}</div>
-        <div class="ri-meta">
-          <span class="pill pill-blue">template</span>
-          ${t.template_id ? `<span class="meta-sm">${esc(t.template_id)}</span>` : ''}
-          ${t.last_modified ? `<span class="meta-sm">${esc(formatDate(t.last_modified))}</span>` : ''}
-        </div>
-      </div>`).join('');
-  }
-  // Signers / recipients
-  else if (data.signers && Array.isArray(data.signers)) {
-    resultCount = ` · ${data.signers.length} firmante${data.signers.length === 1 ? '' : 's'}`;
-    inner = data.signers.map(s => {
-      const status = s.status || 'unknown';
-      const pillClass = status === 'completed' ? 'pill-green'
-        : status === 'declined' ? 'pill-red'
-        : 'pill-amber';
-      return `<div class="result-item">
-        <div class="ri-name">${esc(s.name)} <span style="color:var(--ink-3);font-weight:400;font-size:11px">${esc(s.email || '')}</span></div>
-        <div class="ri-meta">
-          <span class="pill ${pillClass}">${esc(status)}</span>
-          ${s.role ? `<span class="meta-sm">${esc(s.role)}</span>` : ''}
-        </div>
-      </div>`;
-    }).join('');
-  }
-  // Single envelope detail
-  else if (data.envelope_id && data.subject) {
-    inner = `<div class="result-item">
-      <div class="ri-name">${esc(data.subject)}</div>
-      <div class="ri-meta">
-        <span class="pill pill-blue">${esc(data.status || 'envelope')}</span>
-        <span class="meta-sm">ID: ${esc(data.envelope_id)}</span>
-        ${data.created ? `<span class="meta-sm">${esc(formatDate(data.created))}</span>` : ''}
-        ${data.sender ? `<span class="meta-sm">por ${esc(data.sender)}</span>` : ''}
-      </div>
-    </div>`;
-  }
-  // Action confirmation (send_reminder, void_envelope, create_envelope)
-  else if (data.success !== undefined || data.message) {
-    const ok = data.success !== false;
-    inner = `<div class="result-item">
-      <div class="ri-name">${esc(data.message || (ok ? 'Acción completada' : 'Error'))}</div>
-      <div class="ri-meta">
-        <span class="pill ${ok ? 'pill-green' : 'pill-red'}">${ok ? 'OK' : 'Error'}</span>
-        ${data.envelope_id ? `<span class="meta-sm">ID: ${esc(data.envelope_id)}</span>` : ''}
-      </div>
-    </div>`;
-  }
-  // Error
-  else if (data.error) {
-    inner = `<div class="result-item">
-      <div class="ri-name" style="color:var(--danger)">⚠️ ${esc(data.error)}</div>
-    </div>`;
-  }
-  // Fallback: pretty JSON
-  else {
-    inner = `<div class="result-item"><pre style="font-size:11px;color:var(--ink-3);white-space:pre-wrap;margin:0;font-family:var(--font-mono)">${esc(JSON.stringify(data, null, 2))}</pre></div>`;
-  }
-
-  div.innerHTML = `<div class="mcp-result">
-    <div class="mcp-result-header">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px"><polyline points="20 6 9 17 4 12"/></svg>
-      Respuesta DocuSign MCP${resultCount}
-    </div>
-    ${inner}
-  </div>`;
-  msgEl.appendChild(div);
-  msgEl.scrollTop = msgEl.scrollHeight;
-}
-
-function showTyping(label) {
-  const id = 'typ-' + Date.now();
-  const div = document.createElement('div');
-  div.id = id;
-  div.className = 'msg';
-  div.innerHTML = `<div class="typing">
-    <div class="typing-dots"><i></i><i></i><i></i></div>
-    <span>${esc(label)}</span>
-  </div>`;
-  msgEl.appendChild(div);
-  msgEl.scrollTop = msgEl.scrollHeight;
-  return id;
-}
-
-function removeTyping(id) {
-  const el = document.getElementById(id);
-  if (el) el.remove();
-}
-
-async function resetChat() {
-  try {
-    if (sessionId) await fetch('/api/reset', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId }),
-    });
-  } catch (e) { /* silencioso */ }
-  msgEl.innerHTML = `<div class="empty-state">
-    <div class="big">⚡</div>
-    Escribe un mensaje o selecciona un <strong>escenario</strong><br>
-    para interactuar con DocuSign vía MCP
-  </div>`;
-}
-
-// ─── Utils ──────────────────────────────────────────────────
-function esc(s) {
-  if (s === null || s === undefined) return '';
-  const d = document.createElement('div');
-  d.textContent = String(s);
-  return d.innerHTML;
-}
-
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-function formatDate(s) {
-  if (!s) return '';
-  try {
-    const d = new Date(s);
-    if (isNaN(d.getTime())) return s;
-    return d.toLocaleDateString('es-MX', { year: 'numeric', month: 'short', day: 'numeric' });
-  } catch { return s; }
-}
-</script>
+<script src="/script.js" defer></script>
 </body>
 </html>

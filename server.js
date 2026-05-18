@@ -17,8 +17,7 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'"], // permite el script inline del index.html
-        scriptSrcAttr: ["'unsafe-inline'"], // permite handlers onclick="..." inline
+        scriptSrc: ["'self'"], // JS externo únicamente — sin inline
         styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
         imgSrc: ["'self'", "data:"],
@@ -652,12 +651,7 @@ app.post("/api/reset", function (req, res) {
 
 // ─── Health ─────────────────────────────────────────────────────────────
 app.get("/api/health", function (req, res) {
-  res.json({
-    status: "ok",
-    hasApiKey: !!ANTHROPIC_API_KEY,
-    hasDocuSign: hasDocuSignConfig,
-    activeSessions: sessions.size,
-  });
+  res.json({ status: "ok" });
 });
 
 // ─── 404 explícito para rutas /api/* no manejadas (D-10) ────────────────

@@ -72,8 +72,14 @@ const DS_CONFIG = {
   oauthBasePath: "https://account-d.docusign.com",
 };
 
-const hasDocuSignConfig =
-  DS_CONFIG.integrationKey && DS_CONFIG.userId && DS_CONFIG.accountId && DS_CONFIG.rsaPrivateKey;
+// CRÍTICO: usar !! para forzar boolean. Sin esto, AND devuelve el último valor
+// truthy (que sería la RSA private key string), exponiéndola al endpoint /api/status.
+const hasDocuSignConfig = !!(
+  DS_CONFIG.integrationKey &&
+  DS_CONFIG.userId &&
+  DS_CONFIG.accountId &&
+  DS_CONFIG.rsaPrivateKey
+);
 
 // ─── DocuSign JWT Auth ──────────────────────────────────────────────────
 let dsAccessToken = null;
@@ -604,9 +610,11 @@ app.post("/api/chat", chatLimiter, async function (req, res) {
 
 // ─── Status endpoint ────────────────────────────────────────────────────
 app.get("/api/status", async function (req, res) {
+  // Defensa en profundidad: payload con shape fijo de booleans/strings cortos.
+  // NUNCA devolver valores de config directamente, aunque haya bugs upstream.
   const status = {
-    anthropic: !!ANTHROPIC_API_KEY,
-    docusign_configured: hasDocuSignConfig,
+    anthropic: Boolean(ANTHROPIC_API_KEY),
+    docusign_configured: Boolean(hasDocuSignConfig),
     docusign_connected: false,
   };
 
@@ -619,13 +627,14 @@ app.get("/api/status", async function (req, res) {
       if (userRes.ok) {
         const userData = await userRes.json();
         status.docusign_connected = true;
-        status.docusign_user = userData.name;
-        // S-8: no exponer emails en producción salvo que sea necesario
-        if (!isProd) status.docusign_email = userData.email;
+        // Solo el primer nombre, sin email, sin IDs, sin info de account
+        if (userData.name && typeof userData.name === "string") {
+          status.docusign_user = String(userData.name).split(" ")[0].slice(0, 40);
+        }
       }
     } catch (err) {
       console.error("Status check error:", err.message);
-      if (!isProd) status.docusign_error = err.message;
+      // Nunca exponer detalle de errores aquí, ni siquiera en dev
     }
   }
   res.json(status);

@@ -3,445 +3,896 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DocuSign MCP Server — Demo Interactiva</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>⚡</text></svg>">
+<title>DocuSign MCP Agent — Demo Interactiva</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231A1A1A'/><text x='50%25' y='62%25' text-anchor='middle' font-family='Arial' font-size='15' font-weight='700' fill='%23FFCC22'>DS</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#090911;--bg2:#0f0f1a;--bg3:#161625;--bg4:#1e1e32;
-  --surface:#ffffff06;--surface2:#ffffff0c;--surface3:#ffffff14;
-  --text:#e4e2ee;--text2:#9994b0;--text3:#635e78;
-  --accent:#6d5ced;--accent2:#8b7ff2;--accent-dim:#6d5ced18;--accent-glow:#6d5ced30;
-  --green:#34d399;--green-dim:#34d39920;
-  --teal:#2dd4bf;--teal-dim:#2dd4bf15;--teal-bg:#0a2e2a;
-  --coral:#f97066;--coral-dim:#f9706615;--coral-bg:#2e1210;
-  --amber:#f59e0b;--amber-dim:#f59e0b15;--amber-bg:#2e2108;
-  --blue:#5b9cf5;--blue-dim:#5b9cf515;--blue-bg:#0e2240;
-  --border:#ffffff0e;--border2:#ffffff1a;--border3:#ffffff28;
-  --radius:10px;--radius-lg:14px;
-  --font:'Outfit',system-ui,-apple-system,sans-serif;
-  --mono:'JetBrains Mono','Fira Code',monospace;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* DocuSign brand */
+  --ds-yellow: #FFCC22;
+  --ds-yellow-soft: #FFF4CC;
+  --ds-yellow-deep: #B89000;
+  --ds-blue: #0066FF;
+
+  /* Ink scale */
+  --ink: #1A1A1A;
+  --ink-2: #4A4A4A;
+  --ink-3: #8A8A8A;
+  --ink-4: #B8B8B8;
+
+  /* Surfaces */
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --surface-2: #F4F4F4;
+  --border: #E8E8E8;
+  --border-2: #D0D0D0;
+
+  /* Semantic */
+  --success: #00875A;
+  --success-bg: #E6F5EE;
+  --warn: #B85C00;
+  --warn-bg: #FFF1DD;
+  --info: #0052CC;
+  --info-bg: #E6EEFA;
+  --danger: #C9302C;
+  --danger-bg: #FBE9E9;
+
+  --radius: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
 }
-html{font-family:var(--font);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
-body{min-height:100vh;overflow-x:hidden}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-input,textarea{font-family:inherit}
-pre,code{font-family:var(--mono)}
-::selection{background:var(--accent);color:#fff}
 
-/* Scrollbar */
-::-webkit-scrollbar{width:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+html {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-/* Layout */
-.app{max-width:1160px;margin:0 auto;padding:16px 20px}
+body { min-height: 100vh; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+input, textarea { font-family: inherit; }
+pre, code { font-family: var(--font-mono); }
+::selection { background: var(--ds-yellow); color: var(--ink); }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-4); }
+
+/* ─── Layout ─── */
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 24px 40px;
+}
+
+/* ─── Loading overlay ─── */
+.loading-overlay {
+  position: fixed; inset: 0; background: var(--bg);
+  z-index: 9999; display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px; transition: opacity 0.4s;
+}
+.loading-overlay.hidden { opacity: 0; pointer-events: none; }
+.loading-spinner {
+  width: 36px; height: 36px; border: 3px solid var(--border);
+  border-top-color: var(--ds-yellow); border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* ─── Header ─── */
-.header{
-  padding:36px 36px 32px;
-  background:linear-gradient(165deg,var(--bg2) 0%,#13102e 50%,var(--bg2) 100%);
-  border-radius:var(--radius-lg);border:1px solid var(--border);
-  margin-bottom:20px;position:relative;overflow:hidden;
+.header {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
 }
-.header::before{
-  content:'';position:absolute;top:-40%;right:-10%;width:420px;height:420px;
-  background:radial-gradient(circle,var(--accent-glow),transparent 70%);pointer-events:none;
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 4px; height: 100%;
+  background: var(--ds-yellow);
 }
-.header::after{
-  content:'';position:absolute;bottom:-30%;left:10%;width:300px;height:300px;
-  background:radial-gradient(circle,var(--teal-dim),transparent 70%);pointer-events:none;
-}
-.header-top{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;position:relative;z-index:1}
-.header-left{max-width:600px}
-.badge{
-  display:inline-flex;align-items:center;gap:6px;
-  font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
-  padding:5px 14px;border-radius:99px;margin-bottom:14px;
-}
-.badge-green{background:var(--green-dim);color:var(--green)}
-.badge-green::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse-dot 2s infinite}
-.header h1{font-size:clamp(26px,3.6vw,38px);font-weight:800;letter-spacing:-1.2px;line-height:1.1;margin-bottom:8px}
-.header h1 .grad{background:linear-gradient(135deg,var(--accent2),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.header p{font-size:14px;color:var(--text2);line-height:1.6}
-@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* Mode toggle */
-.mode-toggle{
-  display:flex;gap:3px;background:var(--bg);padding:3px;border-radius:var(--radius);border:1px solid var(--border);
+.header-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
 }
-.mode-btn{
-  padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;transition:all .25s;color:var(--text3);
-  display:flex;align-items:center;gap:6px;
+
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-logo {
+  width: 44px; height: 44px;
+  background: var(--ink);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 16px; color: var(--ds-yellow);
+  letter-spacing: -0.5px;
 }
-.mode-btn:hover{color:var(--text2)}
-.mode-btn.active{background:var(--accent);color:#fff}
-.mode-btn .dot{width:6px;height:6px;border-radius:50%}
-.mode-btn.active .dot{background:#fff}
+.brand-text h1 {
+  font-size: 22px; font-weight: 600; letter-spacing: -0.4px;
+  margin-bottom: 2px; line-height: 1.2;
+}
+.brand-text h1 .accent {
+  display: inline-block; background: var(--ds-yellow);
+  color: var(--ink); padding: 1px 8px; border-radius: 4px;
+  font-weight: 700;
+}
+.brand-text .subtitle {
+  font-size: 13px; color: var(--ink-3); font-weight: 500;
+}
+
+.mode-toggle {
+  display: flex; gap: 4px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 4px;
+}
+.mode-btn {
+  font-size: 12px; font-weight: 600;
+  padding: 7px 14px; border-radius: 6px; color: var(--ink-2);
+  display: flex; align-items: center; gap: 6px;
+  transition: all 0.15s;
+}
+.mode-btn:hover { color: var(--ink); }
+.mode-btn.active { background: var(--ink); color: var(--ds-yellow); }
+.mode-btn .pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--warn);
+}
+.mode-btn[data-mode="live"] .pulse { background: var(--success); }
+.mode-btn.active .pulse { animation: pulse-anim 1.5s infinite; }
+@keyframes pulse-anim {
+  0% { box-shadow: 0 0 0 0 currentColor; }
+  70% { box-shadow: 0 0 0 6px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+/* ─── Metrics strip ─── */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+.metric {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+}
+.metric .label {
+  font-size: 10px; font-weight: 700; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.8px;
+  margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+}
+.metric .live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--success); animation: blink 2s infinite;
+}
+@keyframes blink {
+  0%, 60% { opacity: 1; }
+  70%, 100% { opacity: 0.3; }
+}
+.metric .value {
+  font-size: 24px; font-weight: 600; letter-spacing: -0.6px;
+  color: var(--ink); line-height: 1; font-variant-numeric: tabular-nums;
+}
+.metric .delta {
+  font-size: 11px; font-weight: 500; color: var(--success);
+  margin-top: 4px;
+}
+.metric .delta.warn { color: var(--warn); }
+
+@media (max-width: 700px) {
+  .metrics { grid-template-columns: repeat(2, 1fr); }
+  .header { padding: 18px 20px; }
+}
 
 /* ─── Tabs ─── */
-.tabs{display:flex;gap:3px;margin-bottom:20px;background:var(--bg2);padding:3px;border-radius:var(--radius);border:1px solid var(--border);width:fit-content}
-.tab{padding:9px 18px;border-radius:8px;font-size:13px;font-weight:600;transition:all .25s;color:var(--text3)}
-.tab:hover{color:var(--text2);background:var(--surface2)}
-.tab.active{background:var(--accent);color:#fff}
+.tabs {
+  display: flex; gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+.tab {
+  font-size: 13px; font-weight: 500; color: var(--ink-3);
+  padding: 11px 18px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.15s;
+}
+.tab:hover { color: var(--ink-2); }
+.tab.active {
+  color: var(--ink); border-bottom-color: var(--ds-yellow);
+  font-weight: 600;
+}
 
 /* ─── Panels ─── */
-.panel{display:none;animation:fadeUp .35s ease-out}
-.panel.show{display:block}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.panel { display: none; }
+.panel.show { display: block; }
 
-/* ─── Demo Grid ─── */
-.demo-grid{display:grid;grid-template-columns:260px minmax(0,1fr);gap:16px;min-height:540px}
-@media(max-width:768px){.demo-grid{grid-template-columns:1fr}}
-
-/* Sidebar */
-.sidebar{
-  background:var(--bg2);border-radius:var(--radius-lg);border:1px solid var(--border);
-  padding:16px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:600px;
-}
-.sidebar-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:2px}
-.sc-btn{
-  padding:12px 14px;border-radius:var(--radius);border:1px solid var(--border);
-  text-align:left;transition:all .2s;background:var(--surface);
-}
-.sc-btn:hover{border-color:var(--accent);background:var(--accent-dim)}
-.sc-btn.active{border-color:var(--accent);background:var(--accent-dim)}
-.sc-btn h4{font-size:12px;font-weight:600;margin-bottom:2px;color:var(--text)}
-.sc-btn p{font-size:11px;color:var(--text3);line-height:1.4}
-.sc-btn:disabled{opacity:.35;pointer-events:none}
-.sidebar-reset{
-  margin-top:auto;padding:9px;border-radius:8px;border:1px solid var(--border);
-  font-size:11px;font-weight:600;color:var(--text3);transition:all .2s;
-}
-.sidebar-reset:hover{border-color:var(--coral);color:var(--coral)}
-
-/* ─── Chat Area ─── */
-.chat-wrap{
-  background:var(--bg2);border-radius:var(--radius-lg);border:1px solid var(--border);
-  display:flex;flex-direction:column;overflow:hidden;
-}
-.chat-bar{
-  padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;
-}
-.chat-bar .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green-dim)}
-.chat-bar span{font-size:12px;font-weight:600;color:var(--text2)}
-.chat-bar .mode-label{
-  margin-left:auto;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
-  padding:3px 10px;border-radius:99px;
-}
-.mode-demo{background:var(--amber-dim);color:var(--amber)}
-.mode-live{background:var(--green-dim);color:var(--green)}
-
-.messages{flex:1;padding:18px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;min-height:360px;max-height:480px}
-.empty-state{
-  flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;
-  color:var(--text3);font-size:13px;text-align:center;padding:40px 0;
-}
-.empty-state .big{font-size:44px;opacity:.25;margin-bottom:6px}
-
-/* Messages */
-.msg{animation:msgSlide .3s ease-out}
-@keyframes msgSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-.msg-user{align-self:flex-end;max-width:78%}
-.msg-user .bubble{
-  background:linear-gradient(135deg,var(--accent),#4e3ec7);color:#fff;
-  border-radius:var(--radius-lg) var(--radius-lg) 4px var(--radius-lg);
-  padding:12px 16px;font-size:13px;line-height:1.6;
-}
-.msg-ai{align-self:flex-start;max-width:88%}
-.msg-ai .bubble{
-  background:var(--bg3);border:1px solid var(--border);
-  border-radius:var(--radius-lg) var(--radius-lg) var(--radius-lg) 4px;
-  padding:14px 16px;font-size:13px;line-height:1.7;
-}
-.msg-ai .src{font-size:9px;font-weight:700;color:var(--accent2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
-
-/* MCP tool call */
-.mcp-block{
-  background:var(--bg);border-radius:var(--radius);border:1px solid #1c1c36;
-  padding:14px;font-family:var(--mono);
-}
-.mcp-badge{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.mcp-badge .tag{background:var(--accent-dim);color:var(--accent2);padding:3px 10px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.3px}
-.mcp-badge .fn{color:var(--teal);font-size:12px;font-weight:600}
-.mcp-block pre{
-  background:#08081080;border:1px solid #14142a;border-radius:8px;padding:10px 12px;
-  font-size:11px;line-height:1.7;color:#b0adc8;white-space:pre-wrap;margin:0;overflow-x:auto;
+/* ─── Chat panel ─── */
+.demo-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 14px;
 }
 
-/* MCP result */
-.mcp-result{
-  background:var(--teal-dim);border-radius:var(--radius);border:1px solid #2dd4bf18;padding:12px;
+@media (max-width: 860px) {
+  .demo-grid { grid-template-columns: 1fr; }
 }
-.mcp-result-header{
-  display:flex;align-items:center;gap:6px;margin-bottom:8px;
-  font-size:10px;font-weight:700;color:var(--teal);letter-spacing:.5px;text-transform:uppercase;
-}
-.mcp-result-header::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--teal)}
-.result-item{
-  background:var(--bg3);border-radius:8px;padding:10px 12px;border:1px solid var(--border);
-  margin-bottom:6px;font-size:12px;
-}
-.result-item:last-child{margin-bottom:0}
-.result-item .ri-name{font-weight:600;margin-bottom:2px}
-.result-item .ri-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.pill{font-size:9px;padding:2px 8px;border-radius:99px;font-weight:700;letter-spacing:.3px}
-.pill-blue{background:var(--blue-dim);color:var(--blue)}
-.pill-amber{background:var(--amber-dim);color:var(--amber)}
-.pill-coral{background:var(--coral-dim);color:var(--coral)}
-.pill-green{background:var(--green-dim);color:var(--green)}
-.pill-teal{background:var(--teal-dim);color:var(--teal)}
-.meta-sm{font-size:11px;color:var(--text3)}
 
-/* Clause result */
-.clause-item{
-  background:var(--bg3);border-radius:8px;padding:10px 12px;
-  border-left:3px solid var(--amber);margin-bottom:6px;
+.sidebar {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 14px;
 }
-.clause-item.high{border-left-color:var(--coral)}
-.clause-item .cl-head{display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap}
-.clause-item .cl-name{font-size:12px;font-weight:600}
-.clause-item .cl-detail{font-size:11px;color:var(--text2);line-height:1.5}
+.sidebar-label {
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--ink-3); margin-bottom: 12px; padding: 0 4px;
+}
+.sc-btn {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px; width: 100%; text-align: left;
+  margin-bottom: 8px; transition: all 0.15s;
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.sc-btn:hover {
+  border-color: var(--ds-yellow);
+  background: var(--ds-yellow-soft);
+}
+.sc-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.sc-btn .icon {
+  width: 18px; height: 18px;
+  flex-shrink: 0; color: var(--ink-2);
+  display: flex; align-items: center; justify-content: center;
+}
+.sc-btn .text { flex: 1; }
+.sc-btn h4 {
+  font-size: 12px; font-weight: 600; color: var(--ink);
+  margin: 0 0 2px 0; line-height: 1.3;
+}
+.sc-btn p {
+  font-size: 11px; color: var(--ink-3); margin: 0; line-height: 1.3;
+}
 
-/* Typing */
-.typing{display:flex;align-items:center;gap:8px;padding:6px 0}
-.typing-dots{display:flex;gap:3px}
-.typing-dots i{width:6px;height:6px;border-radius:50%;background:var(--accent);display:block;animation:bounce .7s infinite}
-.typing-dots i:nth-child(2){animation-delay:.12s}
-.typing-dots i:nth-child(3){animation-delay:.24s}
-.typing-text{font-size:11px;color:var(--text3)}
-@keyframes bounce{0%,100%{opacity:.2;transform:scale(.7)}50%{opacity:1;transform:scale(1.1)}}
+.sidebar-reset {
+  width: 100%; margin-top: 8px;
+  padding: 8px; font-size: 11px; font-weight: 500;
+  color: var(--ink-3); border: 1px dashed var(--border-2);
+  border-radius: var(--radius); transition: all 0.15s;
+}
+.sidebar-reset:hover { color: var(--danger); border-color: var(--danger); }
 
-/* Input bar */
-.input-bar{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:10px;align-items:center}
-.input-bar input{
-  flex:1;padding:11px 16px;border-radius:var(--radius);
-  background:var(--surface2);border:1px solid var(--border);
-  font-size:13px;color:var(--text);outline:none;transition:border .2s;
+/* ─── Chat area ─── */
+.chat-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  min-height: 540px;
 }
-.input-bar input::placeholder{color:var(--text3)}
-.input-bar input:focus{border-color:var(--accent)}
-.input-bar .send-btn{
-  padding:10px 20px;border-radius:var(--radius);
-  background:var(--accent);color:#fff;font-size:12px;font-weight:700;
-  transition:all .2s;display:flex;align-items:center;gap:6px;white-space:nowrap;
-}
-.input-bar .send-btn:hover{background:var(--accent2);transform:scale(1.02)}
-.input-bar .send-btn:disabled{opacity:.4;pointer-events:none}
-.input-bar .send-btn svg{width:14px;height:14px}
 
-/* ─── Tools Panel ─── */
-.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:24px}
-.tool-card{
-  background:var(--bg2);border-radius:var(--radius-lg);border:1px solid var(--border);
-  padding:18px 20px;transition:all .3s;position:relative;overflow:hidden;
+.chat-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
 }
-.tool-card:hover{border-color:var(--accent);transform:translateY(-2px)}
-.tool-card .tc-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.tool-card .tc-icon{font-size:18px}
-.tool-card .tc-name{font-size:13px;font-weight:700}
-.tool-card .tc-cat{font-size:9px;padding:3px 10px;border-radius:99px;font-weight:700;margin-left:auto;letter-spacing:.3px}
-.cat-nav{background:var(--blue-dim);color:var(--blue)}
-.cat-esig{background:var(--green-dim);color:var(--green)}
-.cat-mae{background:var(--accent-dim);color:var(--accent2)}
-.tool-card .tc-desc{font-size:12px;color:var(--text2);line-height:1.5}
-.code-box{
-  background:var(--bg);border-radius:var(--radius-lg);border:1px solid var(--border);
-  padding:20px;font-family:var(--mono);font-size:12px;line-height:1.9;color:#a8a4c4;overflow-x:auto;
+.chat-bar-left {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600; color: var(--ink);
 }
-.code-box .ck{color:var(--accent2)}
-.code-box .cs{color:var(--green)}
-.code-box .cc{color:var(--teal);font-style:italic}
+.live-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--success); animation: blink 1.5s infinite;
+}
+.chat-bar-right {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 10px; color: var(--ink-3); font-family: var(--font-mono);
+}
+.mode-label {
+  font-size: 10px; font-weight: 700; padding: 3px 8px;
+  border-radius: 20px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.mode-label.demo { background: var(--warn-bg); color: var(--warn); }
+.mode-label.live { background: var(--success-bg); color: var(--success); }
 
-/* ─── Arch Panel ─── */
-.arch-flow{display:flex;flex-direction:column;align-items:center;gap:0;padding:32px 0}
-.arch-node{
-  width:100%;max-width:460px;padding:20px 26px;border-radius:var(--radius-lg);text-align:center;
-  border:1.5px solid var(--border);transition:transform .2s;
+.messages {
+  padding: 18px 16px; flex: 1; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 12px;
+  max-height: 560px;
 }
-.arch-node:hover{transform:scale(1.02)}
-.arch-node h3{font-size:15px;font-weight:700;margin-bottom:2px}
-.arch-node p{font-size:11px;opacity:.6}
-.arch-conn{
-  width:2px;height:32px;position:relative;display:flex;align-items:center;justify-content:center;
-}
-.arch-conn::before{content:'';position:absolute;inset:0;width:2px;margin:0 auto;background:var(--border2)}
-.arch-conn .cl{
-  position:absolute;background:var(--bg);padding:2px 12px;border:1px solid var(--border);border-radius:99px;
-  font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;white-space:nowrap;
-}
-.n-ag{background:linear-gradient(135deg,#14102a,#201650);border-color:#6d5ced30}
-.n-ag h3{color:var(--accent2)}
-.n-mc{background:linear-gradient(135deg,#0a2e2a20,#0a2e2a40);border-color:#2dd4bf25}
-.n-mc h3{color:var(--teal)}
-.n-ap{background:linear-gradient(135deg,#0e224020,#0e224040);border-color:#5b9cf525}
-.n-ap h3{color:var(--blue)}
-.n-ia{background:linear-gradient(135deg,#2e121020,#2e121040);border-color:#f9706625}
-.n-ia h3{color:var(--coral)}
-.benefits{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:28px}
-.benefit{background:var(--bg2);border-radius:var(--radius);border:1px solid var(--border);padding:16px 18px}
-.benefit h4{font-size:13px;font-weight:700;margin-bottom:3px}
-.benefit p{font-size:12px;color:var(--text2);line-height:1.5}
 
-/* Footer */
-.footer{text-align:center;padding:28px 0 16px;font-size:11px;color:var(--text3)}
-.footer a{color:var(--accent2);text-decoration:none}
-
-/* Loading overlay */
-.loading-overlay{
-  position:fixed;inset:0;background:var(--bg);z-index:9999;
-  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;
-  transition:opacity .4s;
+.empty-state {
+  text-align: center; padding: 60px 20px;
+  color: var(--ink-3); font-size: 13px;
 }
-.loading-overlay.hidden{opacity:0;pointer-events:none}
-.loading-spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+.empty-state .big {
+  font-size: 36px; margin-bottom: 12px; color: var(--ds-yellow-deep);
+}
+.empty-state strong { color: var(--ink); font-weight: 600; }
+
+.msg {
+  display: flex; gap: 10px;
+  animation: fadein 0.3s ease;
+}
+@keyframes fadein {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.msg-user { flex-direction: row-reverse; }
+
+.bubble {
+  max-width: 78%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 13px; line-height: 1.55;
+  word-wrap: break-word;
+}
+.msg-user .bubble {
+  background: var(--ink); color: white;
+  border-bottom-right-radius: 4px;
+}
+.msg-ai .bubble {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  border-bottom-left-radius: 4px;
+}
+.msg-ai .bubble .src {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 10px; font-weight: 700; color: var(--ink-3);
+  margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.msg-ai .bubble .src::before {
+  content: ''; width: 12px; height: 2px;
+  background: var(--ds-yellow); border-radius: 1px;
+}
+
+/* ─── MCP tool call ─── */
+.mcp-block {
+  background: var(--ink); color: #E8E8E8;
+  border-radius: var(--radius); padding: 11px 13px;
+  font-family: var(--font-mono); font-size: 11px;
+  border-left: 3px solid var(--ds-yellow);
+  width: 100%;
+}
+.mcp-badge {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  color: var(--ds-yellow); margin-bottom: 6px;
+}
+.mcp-badge .tag {
+  background: var(--ds-yellow); color: var(--ink);
+  padding: 2px 6px; border-radius: 3px; font-size: 9px;
+}
+.mcp-badge .fn { color: #fff; font-family: var(--font-mono); }
+.mcp-block pre {
+  color: #C8C8C8; font-size: 10.5px; line-height: 1.5;
+  white-space: pre-wrap; word-wrap: break-word; margin: 0;
+}
+
+/* ─── MCP result ─── */
+.mcp-result {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden; width: 100%;
+}
+.mcp-result-header {
+  background: var(--ds-yellow-soft);
+  padding: 8px 13px;
+  font-size: 10px; font-weight: 700;
+  color: var(--ds-yellow-deep);
+  text-transform: uppercase; letter-spacing: 0.6px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 6px;
+}
+.result-item {
+  padding: 10px 13px;
+  border-bottom: 1px solid var(--border);
+}
+.result-item:last-child { border-bottom: none; }
+.ri-name {
+  font-size: 12px; font-weight: 500; color: var(--ink);
+  margin-bottom: 4px;
+}
+.ri-meta {
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.pill {
+  font-size: 9px; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.4px;
+}
+.pill-amber { background: var(--warn-bg); color: var(--warn); }
+.pill-green { background: var(--success-bg); color: var(--success); }
+.pill-blue { background: var(--info-bg); color: var(--info); }
+.pill-red { background: var(--danger-bg); color: var(--danger); }
+.meta-sm {
+  font-size: 10px; color: var(--ink-3);
+  font-family: var(--font-mono);
+}
+
+/* ─── Typing indicator ─── */
+.typing {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px;
+  background: var(--bg);
+  border: 1px dashed var(--border-2);
+  border-radius: var(--radius);
+  font-size: 12px; color: var(--ink-3); font-style: italic;
+  max-width: 78%;
+}
+.typing-dots { display: flex; gap: 4px; }
+.typing-dots i {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--ds-yellow-deep);
+  animation: bounce 1.2s infinite;
+  display: block;
+}
+.typing-dots i:nth-child(2) { animation-delay: 0.15s; }
+.typing-dots i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* ─── Input bar ─── */
+.input-bar {
+  display: flex; gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  align-items: center;
+}
+.input-bar input {
+  flex: 1;
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  font-size: 13px; color: var(--ink);
+  background: var(--surface); outline: none;
+  transition: all 0.15s;
+}
+.input-bar input:focus {
+  border-color: var(--ds-yellow);
+  box-shadow: 0 0 0 3px var(--ds-yellow-soft);
+}
+.send-btn {
+  background: var(--ink); color: var(--ds-yellow);
+  border-radius: var(--radius);
+  padding: 10px 18px;
+  font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; gap: 7px;
+  transition: all 0.15s;
+}
+.send-btn:hover:not(:disabled) {
+  background: #000; transform: translateY(-1px);
+}
+.send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.send-btn svg { width: 13px; height: 13px; }
+
+/* ─── Tools panel ─── */
+.tools-intro {
+  font-size: 13px; color: var(--ink-2);
+  margin-bottom: 18px; line-height: 1.6;
+  max-width: 720px;
+}
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px; margin-bottom: 20px;
+}
+.tool-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  transition: all 0.15s;
+}
+.tool-card:hover {
+  border-color: var(--ds-yellow);
+  transform: translateY(-2px);
+}
+.tc-top {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+}
+.tc-name {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+  color: var(--ink); flex: 1;
+}
+.tc-cat {
+  font-size: 9px; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.cat-read { background: var(--info-bg); color: var(--info); }
+.cat-write { background: var(--warn-bg); color: var(--warn); }
+.cat-danger { background: var(--danger-bg); color: var(--danger); }
+.tc-desc {
+  font-size: 12px; color: var(--ink-2); line-height: 1.5;
+}
+
+.code-box {
+  background: var(--ink); color: #E8E8E8;
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  font-family: var(--font-mono); font-size: 12px;
+  line-height: 1.7;
+  border-left: 3px solid var(--ds-yellow);
+  overflow-x: auto;
+}
+.cc { color: #8A8A8A; }
+.ck { color: #8AB4F8; }
+.cs { color: var(--ds-yellow); }
+
+/* ─── Architecture panel ─── */
+.arch-flow {
+  display: flex; flex-direction: column; gap: 10px;
+  margin-bottom: 24px;
+}
+.arch-node {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  border-left: 4px solid var(--ds-yellow);
+}
+.arch-node h3 {
+  font-size: 14px; font-weight: 600;
+  color: var(--ink); margin-bottom: 4px;
+}
+.arch-node p {
+  font-size: 12px; color: var(--ink-3); margin: 0;
+}
+.arch-conn {
+  text-align: center; padding: 4px 0;
+  position: relative;
+}
+.arch-conn .cl {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--ink-3);
+  background: var(--bg);
+  padding: 3px 10px; border-radius: 20px;
+  border: 1px solid var(--border);
+}
+.arch-conn::before {
+  content: ''; position: absolute;
+  left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 1px; height: 28px;
+  background: var(--border-2);
+  z-index: -1;
+}
+
+.benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px; margin-top: 24px;
+}
+.benefit {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+}
+.benefit h4 {
+  font-size: 13px; font-weight: 600; color: var(--ink);
+  margin-bottom: 4px;
+}
+.benefit p {
+  font-size: 12px; color: var(--ink-2); line-height: 1.5;
+}
+
+/* ─── Footer ─── */
+.footer {
+  text-align: center; padding: 28px 0 8px;
+  font-size: 11px; color: var(--ink-3);
+}
+.footer a { color: var(--ink-2); text-decoration: none; font-weight: 500; }
+.footer a:hover { color: var(--ds-yellow-deep); }
+
+/* Icons via SVG inline */
+.svg-icon { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 </style>
 </head>
 <body>
 
-<!-- Loading -->
+<!-- ─── Loading overlay ─── -->
 <div class="loading-overlay" id="loader">
   <div class="loading-spinner"></div>
-  <span style="font-size:13px;color:var(--text2)">Conectando con DocuSign MCP…</span>
+  <span style="font-size:13px;color:var(--ink-3)">Conectando con DocuSign MCP…</span>
 </div>
 
 <div class="app">
 
-<!-- Header -->
-<div class="header">
-  <div class="header-top">
-    <div class="header-left">
-      <div class="badge badge-green">MCP Server — Conectado</div>
-      <h1>DocuSign + <span class="grad">MCP Server</span></h1>
-      <p>Agente de IA conectado a DocuSign vía Model Context Protocol. Escribe en lenguaje natural para gestionar acuerdos, enviar documentos a firma y automatizar workflows.</p>
-    </div>
-    <div>
-      <div class="mode-toggle">
-        <button class="mode-btn active" id="mode-demo" onclick="setMode('demo')">
-          <span class="dot" style="background:var(--amber)"></span> Demo
-        </button>
-        <button class="mode-btn" id="mode-live" onclick="setMode('live')">
-          <span class="dot" style="background:var(--green)"></span> En vivo
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Tabs -->
-<div class="tabs">
-  <button class="tab active" data-tab="demo">Chat en vivo</button>
-  <button class="tab" data-tab="tools">Herramientas MCP</button>
-  <button class="tab" data-tab="arch">Arquitectura</button>
-</div>
-
-<!-- ═══ DEMO / CHAT ═══ -->
-<div class="panel show" id="panel-demo">
-  <div class="demo-grid">
-    <div class="sidebar">
-      <div class="sidebar-label">Escenarios rápidos</div>
-      <button class="sc-btn" data-prompt="Muéstrame los contratos pendientes de firma con Banco Nacional">
-        <h4>Buscar contratos pendientes</h4>
-        <p>Consulta Navigator por acuerdos</p>
-      </button>
-      <button class="sc-btn" data-prompt="Envía el contrato de servicios al equipo legal de Credicorp para firma. Los destinatarios son María López (mlopez@credicorp.com) y Carlos Ruiz (cruiz@credicorp.com).">
-        <h4>Enviar a firma</h4>
-        <p>Crea y envía un envelope</p>
-      </button>
-      <button class="sc-btn" data-prompt="Dispara el workflow de onboarding de Maestro para 15 nuevos proveedores del archivo Excel de mayo 2026.">
-        <h4>Workflow Maestro bulk</h4>
-        <p>Automatiza onboarding masivo</p>
-      </button>
-      <button class="sc-btn" data-prompt="Analiza el contrato de arrendamiento con SQM Industrial (agr-10430) y dime si hay cláusulas de renovación automática o penalidades.">
-        <h4>Analizar contrato con IA</h4>
-        <p>Extrae cláusulas y riesgos</p>
-      </button>
-      <button class="sc-btn" data-prompt="Envía un recordatorio a los firmantes pendientes del Contrato Marco de Servicios con Banco Nacional (agr-10421).">
-        <h4>Enviar recordatorio</h4>
-        <p>Notifica firmantes pendientes</p>
-      </button>
-      <button class="sidebar-reset" id="btn-reset" onclick="resetChat()">Limpiar conversación</button>
-    </div>
-
-    <div class="chat-wrap">
-      <div class="chat-bar">
-        <div class="live-dot"></div>
-        <span>Agente IA — DocuSign MCP</span>
-        <span class="mode-label mode-demo" id="chat-mode-label">Modo demo</span>
-      </div>
-      <div class="messages" id="messages">
-        <div class="empty-state">
-          <div class="big">⚡</div>
-          Escribe un mensaje o selecciona un escenario<br>para interactuar con DocuSign vía MCP
+  <!-- ─── Header ─── -->
+  <div class="header">
+    <div class="header-top">
+      <div class="brand">
+        <div class="brand-logo">DS</div>
+        <div class="brand-text">
+          <h1>DocuSign <span class="accent">MCP</span> Agent</h1>
+          <div class="subtitle">Lenguaje natural → acciones reales en tu plataforma de acuerdos</div>
         </div>
       </div>
-      <div class="input-bar">
-        <input type="text" id="chat-input" placeholder="Ej: Muéstrame los contratos pendientes con Banco Nacional…" autocomplete="off">
-        <button class="send-btn" id="send-btn" onclick="sendMessage()">
-          Enviar
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      <div class="mode-toggle">
+        <button class="mode-btn active" id="mode-demo" data-mode="demo" onclick="setMode('demo')">
+          <span class="pulse"></span> Demo
+        </button>
+        <button class="mode-btn" id="mode-live" data-mode="live" onclick="setMode('live')">
+          <span class="pulse"></span> En vivo
         </button>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- ═══ TOOLS ═══ -->
-<div class="panel" id="panel-tools">
-  <p style="font-size:14px;color:var(--text2);margin-bottom:18px;line-height:1.6">
-    El MCP Server de DocuSign expone estas herramientas que cualquier agente de IA puede invocar vía OAuth 2.0.
-  </p>
-  <div class="tools-grid">
-    <div class="tool-card"><div class="tc-top"><span class="tc-icon">🔍</span><span class="tc-name">search_agreements</span><span class="tc-cat cat-nav">Navigator</span></div><div class="tc-desc">Busca contratos por nombre, estado, fecha o metadata usando Navigator.</div></div>
-    <div class="tool-card"><div class="tc-top"><span class="tc-icon">🧠</span><span class="tc-name">analyze_agreement</span><span class="tc-cat cat-nav">Navigator</span></div><div class="tc-desc">Extrae cláusulas clave, identifica riesgos y genera insights con IA.</div></div>
-    <div class="tool-card"><div class="tc-top"><span class="tc-icon">📋</span><span class="tc-name">get_agreement_details</span><span class="tc-cat cat-esig">eSignature</span></div><div class="tc-desc">Obtiene detalles completos de un sobre: firmantes, estatus, fechas.</div></div>
-    <div class="tool-card"><div class="tc-top"><span class="tc-icon">✉️</span><span class="tc-name">create_envelope</span><span class="tc-cat cat-esig">eSignature</span></div><div class="tc-desc">Crea y envía un nuevo envelope desde template con destinatarios.</div></div>
-    <div class="tool-card"><div class="tc-top"><span class="tc-icon">📄</span><span class="tc-name">list_templates</span><span class="tc-cat cat-esig">eSignature</span></div><div class="tc-desc">Lista plantillas disponibles con filtro por nombre o categoría.</div></div>
-    <div class="tool-card"><div class="tc-top"><span class="tc-icon">⚡</span><span class="tc-name">trigger_maestro_workflow</span><span class="tc-cat cat-mae">Maestro</span></div><div class="tc-desc">Dispara un flujo de Maestro individual o bulk con parámetros dinámicos.</div></div>
+    <div class="metrics">
+      <div class="metric">
+        <div class="label"><span class="live-dot"></span>Envelopes activos</div>
+        <div class="value" id="metric-envelopes">142</div>
+        <div class="delta">↑ 12 hoy</div>
+      </div>
+      <div class="metric">
+        <div class="label"><span class="live-dot"></span>Firmas pendientes</div>
+        <div class="value" id="metric-pending">38</div>
+        <div class="delta warn">↑ 6 esta hora</div>
+      </div>
+      <div class="metric">
+        <div class="label"><span class="live-dot"></span>IDV este mes</div>
+        <div class="value" id="metric-idv">1,247</div>
+        <div class="delta">98.2% aprobación</div>
+      </div>
+      <div class="metric">
+        <div class="label"><span class="live-dot"></span>Workflows Maestro</div>
+        <div class="value" id="metric-workflows">7</div>
+        <div class="delta">activos</div>
+      </div>
+    </div>
   </div>
-  <div class="code-box">
-    <span class="cc">// Configuración del MCP Server en cualquier cliente compatible</span><br>
-    {<br>
-    &nbsp;&nbsp;<span class="ck">"mcpServers"</span>: {<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"docusign"</span>: {<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"url"</span>: <span class="cs">"https://mcp-d.docusign.com/mcp"</span>,<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"name"</span>: <span class="cs">"docusign-iam"</span>,<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"auth"</span>: {<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"type"</span>: <span class="cs">"oauth2"</span>,<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"scopes"</span>: [<span class="cs">"signature"</span>, <span class="cs">"impersonation"</span>]<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-    &nbsp;&nbsp;}<br>
-    }
-  </div>
-</div>
 
-<!-- ═══ ARCHITECTURE ═══ -->
-<div class="panel" id="panel-arch">
-  <div class="arch-flow">
-    <div class="arch-node n-ag"><h3>Usuario / Agente de IA</h3><p>Claude, ChatGPT, Copilot, VS Code, Custom Agent</p></div>
-    <div class="arch-conn"><span class="cl">MCP Protocol (JSON-RPC)</span></div>
-    <div class="arch-node n-mc"><h3>DocuSign MCP Server</h3><p>OAuth 2.0 · Scopes granulares · Tools, Resources, Prompts</p></div>
-    <div class="arch-conn"><span class="cl">REST API</span></div>
-    <div class="arch-node n-ap"><h3>DocuSign APIs</h3><p>eSignature · Navigator · Maestro · Admin</p></div>
-    <div class="arch-conn"><span class="cl">Plataforma</span></div>
-    <div class="arch-node n-ia"><h3>DocuSign IAM Platform</h3><p>Acuerdos · Workflows · Análisis IA · Templates · Audit</p></div>
+  <!-- ─── Tabs ─── -->
+  <div class="tabs">
+    <button class="tab active" data-tab="demo">Chat MCP</button>
+    <button class="tab" data-tab="tools">Herramientas</button>
+    <button class="tab" data-tab="arch">Arquitectura</button>
   </div>
-  <div class="benefits">
-    <div class="benefit"><h4>Protocolo estándar abierto</h4><p>Un adaptador universal. Sin integraciones punto a punto.</p></div>
-    <div class="benefit"><h4>Seguridad OAuth 2.0</h4><p>Scopes granulares. JWT para operación headless.</p></div>
-    <div class="benefit"><h4>Sin código custom</h4><p>Cualquier cliente MCP compatible se conecta al instante.</p></div>
-    <div class="benefit"><h4>Extensible</h4><p>Combina con Extension Apps, Maestro y APIs propias.</p></div>
-  </div>
-</div>
 
-<div class="footer">
-  Demo de preventa — DocuSign MCP Server · <a href="https://developers.docusign.com/platform/mcp-server/" target="_blank">Documentación oficial</a>
-</div>
+  <!-- ═══ DEMO / CHAT ═══ -->
+  <div class="panel show" id="panel-demo">
+    <div class="demo-grid">
+      <div class="sidebar">
+        <div class="sidebar-label">Escenarios</div>
+
+        <button class="sc-btn" data-prompt="Muéstrame los contratos pendientes de firma de los últimos 7 días.">
+          <span class="icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <div class="text">
+            <h4>Buscar pendientes</h4>
+            <p>Contratos últimos 7 días</p>
+          </div>
+        </button>
+
+        <button class="sc-btn" data-prompt="Lista los templates disponibles en mi cuenta.">
+          <span class="icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          </span>
+          <div class="text">
+            <h4>Ver templates</h4>
+            <p>Plantillas disponibles</p>
+          </div>
+        </button>
+
+        <button class="sc-btn" data-prompt="Envía un contrato de servicios desde template estándar a un firmante de prueba (nombre: Juan Pérez, email: juan.perez@empresa.com).">
+          <span class="icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </span>
+          <div class="text">
+            <h4>Enviar a firma</h4>
+            <p>Desde template estándar</p>
+          </div>
+        </button>
+
+        <button class="sc-btn" data-prompt="Dame los detalles de los firmantes pendientes del envelope más reciente.">
+          <span class="icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          <div class="text">
+            <h4>Ver firmantes</h4>
+            <p>Estado de destinatarios</p>
+          </div>
+        </button>
+
+        <button class="sc-btn" data-prompt="Envía un recordatorio a los firmantes pendientes del envelope más antiguo sin firmar.">
+          <span class="icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </span>
+          <div class="text">
+            <h4>Recordatorio</h4>
+            <p>A firmantes pendientes</p>
+          </div>
+        </button>
+
+        <button class="sidebar-reset" id="btn-reset" onclick="resetChat()">Limpiar conversación</button>
+      </div>
+
+      <div class="chat-wrap">
+        <div class="chat-bar">
+          <div class="chat-bar-left">
+            <span class="live-dot"></span>
+            Agente MCP conectado
+            <span class="mode-label demo" id="chat-mode-label">Modo demo</span>
+          </div>
+          <div class="chat-bar-right" id="chat-meta">
+            claude-haiku-4.5
+          </div>
+        </div>
+
+        <div class="messages" id="messages">
+          <div class="empty-state">
+            <div class="big">⚡</div>
+            Escribe un mensaje o selecciona un <strong>escenario</strong><br>
+            para interactuar con DocuSign vía MCP
+          </div>
+        </div>
+
+        <div class="input-bar">
+          <input type="text" id="chat-input" placeholder="Ej: Muéstrame los contratos pendientes de los últimos 7 días…" autocomplete="off">
+          <button class="send-btn" id="send-btn" onclick="sendMessage()">
+            Enviar
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TOOLS ═══ -->
+  <div class="panel" id="panel-tools">
+    <p class="tools-intro">
+      El backend expone estas herramientas que el agente de IA puede invocar vía Model Context Protocol.
+      En <strong>modo demo</strong> usan datos simulados; en <strong>modo en vivo</strong> ejecutan acciones reales en tu cuenta DocuSign sandbox.
+    </p>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tc-top">
+          <span class="tc-name">search_envelopes</span>
+          <span class="tc-cat cat-read">read</span>
+        </div>
+        <div class="tc-desc">Busca sobres por texto, estado o rango de fecha.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tc-top">
+          <span class="tc-name">get_envelope</span>
+          <span class="tc-cat cat-read">read</span>
+        </div>
+        <div class="tc-desc">Obtiene detalles completos de un envelope por ID.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tc-top">
+          <span class="tc-name">get_envelope_recipients</span>
+          <span class="tc-cat cat-read">read</span>
+        </div>
+        <div class="tc-desc">Lista firmantes y destinatarios con su estado actual.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tc-top">
+          <span class="tc-name">list_templates</span>
+          <span class="tc-cat cat-read">read</span>
+        </div>
+        <div class="tc-desc">Lista templates disponibles con filtro opcional por nombre.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tc-top">
+          <span class="tc-name">create_envelope_from_template</span>
+          <span class="tc-cat cat-write">write</span>
+        </div>
+        <div class="tc-desc">Crea y envía un envelope desde template con firmantes y subject.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tc-top">
+          <span class="tc-name">send_reminder</span>
+          <span class="tc-cat cat-write">write</span>
+        </div>
+        <div class="tc-desc">Envía recordatorio de firma a firmantes pendientes.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tc-top">
+          <span class="tc-name">void_envelope</span>
+          <span class="tc-cat cat-danger">danger</span>
+        </div>
+        <div class="tc-desc">Anula un envelope no completado. Requiere razón de anulación.</div>
+      </div>
+    </div>
+
+    <div class="code-box">
+      <span class="cc">// Configuración del MCP Server en un cliente compatible</span><br>
+      {<br>
+      &nbsp;&nbsp;<span class="ck">"mcpServers"</span>: {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"docusign"</span>: {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"url"</span>: <span class="cs">"https://mcp-d.docusign.com/mcp"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"name"</span>: <span class="cs">"docusign-iam"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"auth"</span>: {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"type"</span>: <span class="cs">"oauth2"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"scopes"</span>: [<span class="cs">"signature"</span>, <span class="cs">"impersonation"</span>]<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+      &nbsp;&nbsp;}<br>
+      }
+    </div>
+  </div>
+
+  <!-- ═══ ARCHITECTURE ═══ -->
+  <div class="panel" id="panel-arch">
+    <p class="tools-intro">
+      El protocolo MCP permite que <strong>cualquier agente de IA</strong> se conecte de forma estándar
+      a la plataforma DocuSign para ejecutar acciones sobre acuerdos sin código de integración custom.
+    </p>
+    <div class="arch-flow">
+      <div class="arch-node">
+        <h3>Usuario / Agente de IA</h3>
+        <p>Claude, ChatGPT, Copilot, VS Code, agentes custom</p>
+      </div>
+      <div class="arch-conn"><span class="cl">MCP Protocol · JSON-RPC</span></div>
+      <div class="arch-node">
+        <h3>DocuSign MCP Server</h3>
+        <p>OAuth 2.0 · Scopes granulares · Tools, Resources, Prompts</p>
+      </div>
+      <div class="arch-conn"><span class="cl">REST API</span></div>
+      <div class="arch-node">
+        <h3>DocuSign APIs</h3>
+        <p>eSignature · Navigator · Maestro · Admin · Identify</p>
+      </div>
+      <div class="arch-conn"><span class="cl">Plataforma</span></div>
+      <div class="arch-node">
+        <h3>DocuSign IAM Platform</h3>
+        <p>Acuerdos · Workflows · Análisis IA · Templates · Audit</p>
+      </div>
+    </div>
+    <div class="benefits">
+      <div class="benefit">
+        <h4>Protocolo estándar abierto</h4>
+        <p>Un adaptador universal. Sin integraciones punto a punto.</p>
+      </div>
+      <div class="benefit">
+        <h4>Seguridad OAuth 2.0</h4>
+        <p>Scopes granulares. JWT para operación headless.</p>
+      </div>
+      <div class="benefit">
+        <h4>Sin código custom</h4>
+        <p>Cualquier cliente MCP compatible se conecta al instante.</p>
+      </div>
+      <div class="benefit">
+        <h4>Extensible</h4>
+        <p>Combina con Extension Apps, Maestro y APIs propias.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    DocuSign MCP Agent · Demo de preventa ·
+    <a href="https://developers.docusign.com/platform/mcp-server/" target="_blank" rel="noopener">Documentación oficial</a>
+  </div>
 
 </div>
 
@@ -449,15 +900,45 @@ pre,code{font-family:var(--mono)}
 // ─── State ──────────────────────────────────────────────────
 let currentMode = 'demo';
 let isProcessing = false;
-const sessionId = 'sess-' + Math.random().toString(36).slice(2, 10);
+let sessionId = null; // se asigna desde el server en la primera respuesta
+
 const msgEl = document.getElementById('messages');
 const inputEl = document.getElementById('chat-input');
 const sendBtn = document.getElementById('send-btn');
 
 // ─── Init ───────────────────────────────────────────────────
 window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('loader').classList.add('hidden'), 800);
+  setTimeout(() => document.getElementById('loader').classList.add('hidden'), 600);
+  startMetricsTicker();
+  checkStatus();
 });
+
+// ─── Status check ───────────────────────────────────────────
+async function checkStatus() {
+  try {
+    const res = await fetch('/api/status');
+    if (!res.ok) return;
+    const data = await res.json();
+    const meta = document.getElementById('chat-meta');
+    if (data.docusign_connected) {
+      meta.innerHTML = `claude-haiku-4.5 · DocuSign ✓ ${esc(data.docusign_user || '')}`;
+    }
+  } catch (e) { /* silencioso */ }
+}
+
+// ─── Live metrics ticker (mock, refresca cada 8s con variación) ───
+const baseMetrics = { envelopes: 142, pending: 38, idv: 1247, workflows: 7 };
+function startMetricsTicker() {
+  setInterval(() => {
+    const env = baseMetrics.envelopes + Math.floor(Math.random() * 4) - 1;
+    const pen = baseMetrics.pending + Math.floor(Math.random() * 3) - 1;
+    const idv = baseMetrics.idv + Math.floor(Math.random() * 5);
+    document.getElementById('metric-envelopes').textContent = env;
+    document.getElementById('metric-pending').textContent = pen;
+    document.getElementById('metric-idv').textContent = idv.toLocaleString('es-MX');
+    baseMetrics.idv = idv;
+  }, 8000);
+}
 
 // ─── Tabs ───────────────────────────────────────────────────
 document.querySelectorAll('.tab').forEach(tab => {
@@ -477,10 +958,10 @@ function setMode(mode) {
   const label = document.getElementById('chat-mode-label');
   if (mode === 'live') {
     label.textContent = 'En vivo';
-    label.className = 'mode-label mode-live';
+    label.className = 'mode-label live';
   } else {
     label.textContent = 'Modo demo';
-    label.className = 'mode-label mode-demo';
+    label.className = 'mode-label demo';
   }
 }
 
@@ -494,7 +975,12 @@ document.querySelectorAll('.sc-btn[data-prompt]').forEach(btn => {
 });
 
 // ─── Send message ───────────────────────────────────────────
-inputEl.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+inputEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
 
 async function sendMessage() {
   const text = inputEl.value.trim();
@@ -508,10 +994,7 @@ async function sendMessage() {
   const empty = msgEl.querySelector('.empty-state');
   if (empty) empty.remove();
 
-  // Add user message
   addMsg('user', text);
-
-  // Show typing
   const typingId = showTyping('Procesando con Claude + DocuSign MCP…');
 
   try {
@@ -529,25 +1012,24 @@ async function sendMessage() {
     }
 
     const data = await res.json();
+    if (data.sessionId) sessionId = data.sessionId;
 
-    // Show tool trace
+    // Show tool trace, sequentially with brief delay so it feels alive
     if (data.tools && data.tools.length > 0) {
       for (const t of data.tools) {
         if (t.tool) {
           addMcpCall(t.tool, t.input);
-          await sleep(300);
+          await sleep(280);
         }
         if (t.result) {
           addMcpResult(t.result);
-          await sleep(300);
+          await sleep(280);
         }
       }
     }
 
-    // Show assistant response
-    if (data.text) {
-      addMsg('assistant', data.text);
-    }
+    if (data.text) addMsg('assistant', data.text);
+
   } catch (err) {
     removeTyping(typingId);
     addMsg('assistant', '⚠️ Error: ' + err.message + '\n\nVerifica que la variable ANTHROPIC_API_KEY esté configurada en Render.');
@@ -567,7 +1049,7 @@ function addMsg(role, text) {
   } else {
     div.className = 'msg msg-ai';
     const formatted = esc(text).replace(/\n/g, '<br>');
-    div.innerHTML = `<div class="bubble"><div class="src">Agente IA · DocuSign MCP</div>${formatted}</div>`;
+    div.innerHTML = `<div class="bubble"><div class="src">Agente MCP</div>${formatted}</div>`;
   }
   msgEl.appendChild(div);
   msgEl.scrollTop = msgEl.scrollHeight;
@@ -576,9 +1058,13 @@ function addMsg(role, text) {
 function addMcpCall(tool, input) {
   const div = document.createElement('div');
   div.className = 'msg';
-  const inputStr = typeof input === 'string' ? input : JSON.stringify(input, null, 2);
+  const inputStr = (typeof input === 'string') ? input : JSON.stringify(input, null, 2);
   div.innerHTML = `<div class="mcp-block">
-    <div class="mcp-badge"><span class="tag">MCP Tool Call</span><span class="fn">${esc(tool)}</span></div>
+    <div class="mcp-badge">
+      <span class="tag">MCP</span>
+      <span>tool_use →</span>
+      <span class="fn">${esc(tool)}</span>
+    </div>
     <pre>${esc(inputStr)}</pre>
   </div>`;
   msgEl.appendChild(div);
@@ -591,73 +1077,101 @@ function addMcpResult(result) {
 
   let data = result;
   if (typeof result === 'string') {
-    try { data = JSON.parse(result); } catch { data = result; }
+    try { data = JSON.parse(result); } catch { data = { raw: result }; }
   }
 
-  // Try to render structured results
   let inner = '';
-  if (data.agreements && Array.isArray(data.agreements)) {
-    inner = data.agreements.map(a => `
-      <div class="result-item">
-        <div class="ri-name">${esc(a.name)}</div>
+  let resultCount = '';
+
+  // Envelopes list (from search_envelopes)
+  if (data.envelopes && Array.isArray(data.envelopes)) {
+    resultCount = ` · ${data.envelopes.length} resultado${data.envelopes.length === 1 ? '' : 's'}`;
+    inner = data.envelopes.map(e => {
+      const status = e.status || 'unknown';
+      const pillClass = status === 'completed' ? 'pill-green'
+        : status === 'voided' || status === 'declined' ? 'pill-red'
+        : status === 'pending' || status === 'sent' || status === 'created' ? 'pill-amber'
+        : 'pill-blue';
+      return `<div class="result-item">
+        <div class="ri-name">${esc(e.subject || e.name || 'Sin asunto')}</div>
         <div class="ri-meta">
-          <span class="pill ${a.status === 'pending' ? 'pill-amber' : a.status === 'active' ? 'pill-green' : 'pill-blue'}">${esc(a.status)}</span>
-          ${a.signers_completed !== undefined ? `<span class="meta-sm">Firmas: ${a.signers_completed}/${a.signers_total}</span>` : ''}
-          ${a.created ? `<span class="meta-sm">${esc(a.created)}</span>` : ''}
-          ${a.pages ? `<span class="meta-sm">${a.pages} págs</span>` : ''}
+          <span class="pill ${pillClass}">${esc(status)}</span>
+          ${e.signers_progress ? `<span class="meta-sm">${esc(e.signers_progress)} firmas</span>` : ''}
+          ${e.created ? `<span class="meta-sm">${esc(formatDate(e.created))}</span>` : ''}
+          ${e.envelope_id ? `<span class="meta-sm">${esc(e.envelope_id)}</span>` : ''}
         </div>
-      </div>`).join('');
-  } else if (data.templates && Array.isArray(data.templates)) {
+      </div>`;
+    }).join('');
+  }
+  // Templates list
+  else if (data.templates && Array.isArray(data.templates)) {
+    resultCount = ` · ${data.templates.length} template${data.templates.length === 1 ? '' : 's'}`;
     inner = data.templates.map(t => `
       <div class="result-item">
         <div class="ri-name">${esc(t.name)}</div>
         <div class="ri-meta">
-          <span class="pill pill-blue">${esc(t.category)}</span>
-          <span class="meta-sm">ID: ${esc(t.id)}</span>
-          <span class="meta-sm">Último uso: ${esc(t.last_used)}</span>
+          <span class="pill pill-blue">template</span>
+          ${t.template_id ? `<span class="meta-sm">${esc(t.template_id)}</span>` : ''}
+          ${t.last_modified ? `<span class="meta-sm">${esc(formatDate(t.last_modified))}</span>` : ''}
         </div>
       </div>`).join('');
-  } else if (data.analysis && Array.isArray(data.analysis)) {
-    inner = data.analysis.map(c => `
-      <div class="clause-item ${c.risk === 'high' ? 'high' : ''}">
-        <div class="cl-head">
-          <span class="cl-name">${esc(c.clause)}</span>
-          <span class="pill ${c.risk === 'high' ? 'pill-coral' : c.risk === 'medium' ? 'pill-amber' : 'pill-green'}">${c.risk === 'high' ? 'Alto' : c.risk === 'medium' ? 'Medio' : 'Bajo'}</span>
+  }
+  // Signers / recipients
+  else if (data.signers && Array.isArray(data.signers)) {
+    resultCount = ` · ${data.signers.length} firmante${data.signers.length === 1 ? '' : 's'}`;
+    inner = data.signers.map(s => {
+      const status = s.status || 'unknown';
+      const pillClass = status === 'completed' ? 'pill-green'
+        : status === 'declined' ? 'pill-red'
+        : 'pill-amber';
+      return `<div class="result-item">
+        <div class="ri-name">${esc(s.name)} <span style="color:var(--ink-3);font-weight:400;font-size:11px">${esc(s.email || '')}</span></div>
+        <div class="ri-meta">
+          <span class="pill ${pillClass}">${esc(status)}</span>
+          ${s.role ? `<span class="meta-sm">${esc(s.role)}</span>` : ''}
         </div>
-        <div class="cl-detail">${esc(c.detail)}</div>
-      </div>`).join('');
-  } else if (data.envelope_id) {
+      </div>`;
+    }).join('');
+  }
+  // Single envelope detail
+  else if (data.envelope_id && data.subject) {
     inner = `<div class="result-item">
-      <div class="ri-name">Envelope: ${esc(data.envelope_id)}</div>
+      <div class="ri-name">${esc(data.subject)}</div>
       <div class="ri-meta">
-        <span class="pill pill-green">${esc(data.status)}</span>
-        <span class="meta-sm">${data.recipients_count} destinatarios</span>
-        <span class="meta-sm">${esc(data.message)}</span>
+        <span class="pill pill-blue">${esc(data.status || 'envelope')}</span>
+        <span class="meta-sm">ID: ${esc(data.envelope_id)}</span>
+        ${data.created ? `<span class="meta-sm">${esc(formatDate(data.created))}</span>` : ''}
+        ${data.sender ? `<span class="meta-sm">por ${esc(data.sender)}</span>` : ''}
       </div>
     </div>`;
-  } else if (data.workflow_run_id) {
+  }
+  // Action confirmation (send_reminder, void_envelope, create_envelope)
+  else if (data.success !== undefined || data.message) {
+    const ok = data.success !== false;
     inner = `<div class="result-item">
-      <div class="ri-name">Workflow: ${esc(data.workflow_run_id)}</div>
+      <div class="ri-name">${esc(data.message || (ok ? 'Acción completada' : 'Error'))}</div>
       <div class="ri-meta">
-        <span class="pill pill-blue">${esc(data.status)}</span>
-        <span class="meta-sm">${data.instances_created} instancias</span>
-        <span class="pill pill-teal">${esc(data.estimated_completion)}</span>
+        <span class="pill ${ok ? 'pill-green' : 'pill-red'}">${ok ? 'OK' : 'Error'}</span>
+        ${data.envelope_id ? `<span class="meta-sm">ID: ${esc(data.envelope_id)}</span>` : ''}
       </div>
     </div>`;
-  } else if (data.success && data.reminders_sent) {
+  }
+  // Error
+  else if (data.error) {
     inner = `<div class="result-item">
-      <div class="ri-name">Recordatorio enviado</div>
-      <div class="ri-meta">
-        <span class="pill pill-green">OK</span>
-        <span class="meta-sm">${data.reminders_sent} firmantes notificados</span>
-      </div>
+      <div class="ri-name" style="color:var(--danger)">⚠️ ${esc(data.error)}</div>
     </div>`;
-  } else {
-    inner = `<div class="result-item"><pre style="font-size:11px;color:var(--text2);white-space:pre-wrap;margin:0">${esc(JSON.stringify(data, null, 2))}</pre></div>`;
+  }
+  // Fallback: pretty JSON
+  else {
+    inner = `<div class="result-item"><pre style="font-size:11px;color:var(--ink-3);white-space:pre-wrap;margin:0;font-family:var(--font-mono)">${esc(JSON.stringify(data, null, 2))}</pre></div>`;
   }
 
   div.innerHTML = `<div class="mcp-result">
-    <div class="mcp-result-header">Respuesta DocuSign MCP Server</div>
+    <div class="mcp-result-header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px"><polyline points="20 6 9 17 4 12"/></svg>
+      Respuesta DocuSign MCP${resultCount}
+    </div>
     ${inner}
   </div>`;
   msgEl.appendChild(div);
@@ -668,8 +1182,11 @@ function showTyping(label) {
   const id = 'typ-' + Date.now();
   const div = document.createElement('div');
   div.id = id;
-  div.className = 'typing';
-  div.innerHTML = `<div class="typing-dots"><i></i><i></i><i></i></div><span class="typing-text">${esc(label)}</span>`;
+  div.className = 'msg';
+  div.innerHTML = `<div class="typing">
+    <div class="typing-dots"><i></i><i></i><i></i></div>
+    <span>${esc(label)}</span>
+  </div>`;
   msgEl.appendChild(div);
   msgEl.scrollTop = msgEl.scrollHeight;
   return id;
@@ -681,17 +1198,38 @@ function removeTyping(id) {
 }
 
 async function resetChat() {
-  await fetch('/api/reset', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ sessionId }),
-  });
-  msgEl.innerHTML = `<div class="empty-state"><div class="big">⚡</div>Escribe un mensaje o selecciona un escenario<br>para interactuar con DocuSign vía MCP</div>`;
+  try {
+    if (sessionId) await fetch('/api/reset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId }),
+    });
+  } catch (e) { /* silencioso */ }
+  msgEl.innerHTML = `<div class="empty-state">
+    <div class="big">⚡</div>
+    Escribe un mensaje o selecciona un <strong>escenario</strong><br>
+    para interactuar con DocuSign vía MCP
+  </div>`;
 }
 
 // ─── Utils ──────────────────────────────────────────────────
-function esc(s) { if (!s) return ''; const d = document.createElement('div'); d.textContent = String(s); return d.innerHTML; }
+function esc(s) {
+  if (s === null || s === undefined) return '';
+  const d = document.createElement('div');
+  d.textContent = String(s);
+  return d.innerHTML;
+}
+
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function formatDate(s) {
+  if (!s) return '';
+  try {
+    const d = new Date(s);
+    if (isNaN(d.getTime())) return s;
+    return d.toLocaleDateString('es-MX', { year: 'numeric', month: 'short', day: 'numeric' });
+  } catch { return s; }
+}
 </script>
 </body>
 </html>

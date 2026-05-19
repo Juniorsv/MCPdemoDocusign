@@ -112,9 +112,33 @@ async function checkStatus() {
   } catch (_) {}
 }
 
-// ─── Metrics ticker ─────────────────────────────────────────
+// ─── Metrics ticker + count-up ──────────────────────────────
 const baseMetrics = { envelopes: 142, pending: 38, idv: 1247, workflows: 7 };
+
+function countUp(elId, target, duration) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const start = performance.now();
+  const fmt = n => n >= 1000 ? n.toLocaleString('es-MX') : String(n);
+  const tick = now => {
+    const t = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    el.textContent = fmt(Math.round(target * ease));
+    if (t < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
 function startMetricsTicker() {
+  // Count-up on load
+  setTimeout(() => {
+    countUp('metric-envelopes', baseMetrics.envelopes, 1100);
+    countUp('metric-pending',   baseMetrics.pending,    850);
+    countUp('metric-idv',       baseMetrics.idv,       1400);
+    countUp('metric-workflows', baseMetrics.workflows,  600);
+  }, 750);
+
+  // Live ticker
   setInterval(() => {
     const env = baseMetrics.envelopes + Math.floor(Math.random() * 4) - 1;
     const pen = baseMetrics.pending  + Math.floor(Math.random() * 3) - 1;
@@ -135,6 +159,9 @@ async function sendMessage() {
   sendBtn.disabled = true;
   inputEl.value = '';
   updateCharCount();
+  document.querySelector('.input-bar').classList.add('processing');
+  const bar = document.getElementById('nprogress');
+  if (bar) { bar.classList.remove('done'); bar.classList.add('active'); }
 
   const empty = msgEl.querySelector('.empty-state');
   if (empty) empty.remove();
@@ -196,6 +223,9 @@ async function sendMessage() {
 
   isProcessing = false;
   sendBtn.disabled = false;
+  document.querySelector('.input-bar').classList.remove('processing');
+  const barEl = document.getElementById('nprogress');
+  if (barEl) { barEl.classList.remove('active'); barEl.classList.add('done'); }
   inputEl.focus();
 }
 

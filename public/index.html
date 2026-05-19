@@ -1362,6 +1362,122 @@ body {
   color: var(--danger);
   font-style: italic;
 }
+
+/* ─── Tools section labels ─── */
+.tools-total {
+  font-size: 11px; color: var(--ink-3); font-weight: 500; margin-left: 8px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 3px 10px; border-radius: 20px;
+}
+.tools-section { margin-bottom: 28px; }
+.tools-section-label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--ink-3);
+  margin-bottom: 14px; padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.tsl-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.tsl-blue   { background: var(--info); box-shadow: 0 0 6px rgba(91,163,255,.5); }
+.tsl-yellow { background: var(--ds-yellow); box-shadow: 0 0 6px rgba(255,204,34,.5); }
+.tsl-purple { background: #a78bfa; box-shadow: 0 0 6px rgba(167,139,250,.5); }
+.tsl-teal   { background: #2dd4bf; box-shadow: 0 0 6px rgba(45,212,191,.5); }
+.tsl-count {
+  margin-left: auto; font-size: 9px; color: var(--ink-3);
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 2px 8px; border-radius: 10px; font-weight: 600;
+}
+
+/* ─── Tool card new categories ─── */
+.tool-card-navigator   { border-left: 3px solid var(--ds-yellow); }
+.tool-card-maestro-read{ border-left: 3px solid #a78bfa; }
+.tool-card-maestro-write{border-left: 3px solid #818cf8; }
+.tool-card-admin       { border-left: 3px solid #2dd4bf; }
+
+.cat-navigator    { background: rgba(255,204,34,.1);   color: var(--ds-yellow-deep); }
+.cat-maestro-read { background: rgba(167,139,250,.12); color: #a78bfa; }
+.cat-maestro-write{ background: rgba(129,140,248,.12); color: #818cf8; }
+.cat-admin        { background: rgba(45,212,191,.12);  color: #2dd4bf; }
+
+.tool-card-navigator:hover    { box-shadow: 0 8px 32px rgba(255,204,34,.15) !important; border-color: var(--ds-yellow) !important; }
+.tool-card-maestro-read:hover { box-shadow: 0 8px 32px rgba(167,139,250,.18) !important; border-color: #a78bfa !important; }
+.tool-card-maestro-write:hover{ box-shadow: 0 8px 32px rgba(129,140,248,.18) !important; border-color: #818cf8 !important; }
+.tool-card-admin:hover        { box-shadow: 0 8px 32px rgba(45,212,191,.15)  !important; border-color: #2dd4bf !important; }
+.tool-card-navigator:hover    .tc-name { color: var(--ds-yellow-deep) !important; }
+.tool-card-maestro-read:hover .tc-name { color: #a78bfa !important; }
+.tool-card-maestro-write:hover .tc-name{ color: #818cf8 !important; }
+.tool-card-admin:hover        .tc-name { color: #2dd4bf !important; }
+
+/* ─── Cases of use panel ─── */
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 16px;
+}
+.case-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 20px;
+  transition: all .22s cubic-bezier(.16,1,.3,1);
+}
+.case-card:hover {
+  border-color: rgba(255,204,34,.35);
+  box-shadow: 0 8px 32px rgba(0,0,0,.18), 0 0 0 1px rgba(255,204,34,.08);
+  transform: translateY(-2px);
+}
+.case-header {
+  display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px;
+}
+.case-icon {
+  width: 36px; height: 36px; flex-shrink: 0;
+  background: var(--ds-yellow-soft); border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,204,34,.25);
+}
+.case-icon svg { width: 16px; height: 16px; stroke: var(--ds-yellow-deep); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.case-title { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.3; }
+.case-sub { font-size: 11px; color: var(--ink-3); margin-top: 3px; }
+.case-badge {
+  margin-left: auto; flex-shrink: 0;
+  font-size: 9px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
+  background: var(--ds-yellow-soft); color: var(--ds-yellow-deep);
+  border: 1px solid rgba(255,204,34,.25); text-transform: uppercase; letter-spacing: .5px;
+}
+.case-prompt {
+  background: var(--bg); border: 1px solid var(--border-2);
+  border-left: 3px solid var(--ds-yellow); border-radius: var(--radius);
+  padding: 10px 13px; font-size: 12.5px; color: var(--ink-2);
+  font-style: italic; line-height: 1.55; margin-bottom: 14px;
+}
+.case-flow {
+  display: flex; align-items: center; gap: 6px;
+  margin-bottom: 12px; flex-wrap: wrap;
+}
+.case-step {
+  display: flex; flex-direction: column; gap: 2px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 7px; padding: 6px 10px;
+}
+.case-step.step-read     { border-top: 2px solid var(--info); }
+.case-step.step-write    { border-top: 2px solid var(--warn); }
+.case-step.step-navigator{ border-top: 2px solid var(--ds-yellow); }
+.case-step.step-maestro  { border-top: 2px solid #a78bfa; }
+.cs-tool { font-family: var(--font-mono); font-size: 10px; font-weight: 600; color: var(--ink); }
+.cs-desc { font-size: 9px; color: var(--ink-3); }
+.case-arrow { color: var(--ink-4); font-size: 13px; font-weight: 500; }
+.case-outcome {
+  display: flex; align-items: flex-start; gap: 8px;
+  font-size: 11.5px; color: var(--ink-2); line-height: 1.5;
+  background: var(--success-bg); border: 1px solid rgba(45,214,144,.15);
+  border-radius: var(--radius); padding: 9px 12px;
+}
+.case-outcome svg { width: 13px; height: 13px; stroke: var(--success); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; margin-top: 2px; }
+
+/* ─── Cases panel entrance ─── */
+#panel-cases.show .case-card { animation: cardIn .4s cubic-bezier(.16,1,.3,1) both; }
+#panel-cases.show .case-card:nth-child(1) { animation-delay: .05s; }
+#panel-cases.show .case-card:nth-child(2) { animation-delay: .12s; }
+#panel-cases.show .case-card:nth-child(3) { animation-delay: .19s; }
+#panel-cases.show .case-card:nth-child(4) { animation-delay: .26s; }
 </style>
 </head>
 <body>
@@ -1391,7 +1507,7 @@ body {
         <div class="brand-logo">DS</div>
         <div class="brand-text">
           <h1>DocuSign <span class="accent">MCP</span> Agent</h1>
-          <div class="subtitle">Lenguaje natural → acciones reales en tu plataforma de acuerdos</div>
+          <div class="subtitle">Intelligent Agreement Management · Powered by MCP + IAM</div>
         </div>
       </div>
       <div class="mode-toggle">
@@ -1406,9 +1522,9 @@ body {
 
     <div class="metrics">
       <div class="metric">
-        <div class="label"><span class="live-dot"></span>Envelopes activos</div>
+        <div class="label"><span class="live-dot"></span>Acuerdos activos</div>
         <div class="value" id="metric-envelopes">142</div>
-        <div class="delta">↑ 12 hoy</div>
+        <div class="delta">↑ 12 hoy · Navigator</div>
       </div>
       <div class="metric">
         <div class="label"><span class="live-dot"></span>Firmas pendientes</div>
@@ -1416,14 +1532,14 @@ body {
         <div class="delta warn">↑ 6 esta hora</div>
       </div>
       <div class="metric">
-        <div class="label"><span class="live-dot"></span>IDV este mes</div>
-        <div class="value" id="metric-idv">1,247</div>
-        <div class="delta">98.2% aprobación</div>
+        <div class="label"><span class="live-dot"></span>Workflows Maestro</div>
+        <div class="value" id="metric-idv">7</div>
+        <div class="delta">activos · 3 corriendo</div>
       </div>
       <div class="metric">
-        <div class="label"><span class="live-dot"></span>Workflows Maestro</div>
-        <div class="value" id="metric-workflows">7</div>
-        <div class="delta">activos</div>
+        <div class="label"><span class="live-dot"></span>Herramientas MCP</div>
+        <div class="value" id="metric-workflows">25</div>
+        <div class="delta">eSign · Nav · Maestro</div>
       </div>
     </div>
   </div>
@@ -1432,7 +1548,8 @@ body {
   <div class="tabs">
     <button class="tab active" data-tab="demo">Chat MCP</button>
     <button class="tab" data-tab="tools">Herramientas</button>
-    <button class="tab" data-tab="arch">Arquitectura</button>
+    <button class="tab" data-tab="cases">Casos de Uso</button>
+    <button class="tab" data-tab="arch">Plataforma IAM</button>
   </div>
 
   <!-- ═══ DEMO / CHAT ═══ -->
@@ -1441,118 +1558,72 @@ body {
       <div class="sidebar">
         <div class="sidebar-label">Escenarios</div>
 
-        <button class="sc-btn" data-prompt="Muéstrame los contratos pendientes de firma de los últimos 7 días.">
-          <span class="icon">
-            <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          </span>
-          <div class="text">
-            <h4>Buscar pendientes</h4>
-            <p>Contratos últimos 7 días</p>
-          </div>
+        <div class="sidebar-sep">eSignature</div>
+
+        <button class="sc-btn" data-prompt="Busca todos los envelopes enviados y pendientes de firma de los últimos 7 días. Muestra asunto, firmantes y fecha de envío.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+          <div class="text"><h4>Pendientes de firma</h4><p>Últimos 7 días</p></div>
         </button>
 
-        <button class="sc-btn" data-prompt="Lista los templates disponibles en mi cuenta.">
-          <span class="icon">
-            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          </span>
-          <div class="text">
-            <h4>Ver templates</h4>
-            <p>Plantillas disponibles</p>
-          </div>
+        <button class="sc-btn" data-prompt="Lista los templates disponibles en mi cuenta DocuSign con su nombre, ID y fecha de última modificación.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
+          <div class="text"><h4>Ver templates</h4><p>Plantillas disponibles</p></div>
         </button>
 
-        <button class="sc-btn" data-prompt="Envía un contrato de servicios desde template estándar a un firmante de prueba (nombre: Juan Pérez, email: juan.perez@empresa.com).">
-          <span class="icon">
-            <svg class="svg-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </span>
-          <div class="text">
-            <h4>Enviar a firma</h4>
-            <p>Desde template estándar</p>
-          </div>
+        <button class="sc-btn" data-prompt="Usa el primer template disponible para enviar un contrato de servicios a Juan Pérez (juan.perez@empresa.com) con asunto 'Contrato de Servicios Q2'.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
+          <div class="text"><h4>Enviar a firma</h4><p>Desde template</p></div>
         </button>
 
-        <button class="sc-btn" data-prompt="Dame los detalles de los firmantes pendientes del envelope más reciente.">
-          <span class="icon">
-            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-          </span>
-          <div class="text">
-            <h4>Ver firmantes</h4>
-            <p>Estado de destinatarios</p>
-          </div>
+        <button class="sc-btn" data-prompt="Dame los detalles del envelope más reciente: estado, firmantes con su progreso, documentos incluidos y fechas clave.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+          <div class="text"><h4>Estado de firmantes</h4><p>Envelope más reciente</p></div>
         </button>
 
-        <button class="sc-btn" data-prompt="Envía un recordatorio a los firmantes pendientes del envelope más antiguo sin firmar.">
-          <span class="icon">
-            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-          </span>
-          <div class="text">
-            <h4>Recordatorio</h4>
-            <p>A firmantes pendientes</p>
-          </div>
+        <button class="sc-btn" data-prompt="Envía un recordatorio de firma a todos los firmantes pendientes del envelope más antiguo sin completar.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>
+          <div class="text"><h4>Enviar recordatorio</h4><p>Firmantes con retraso</p></div>
         </button>
 
-        <div class="sidebar-sep">Navigator · Maestro</div>
+        <div class="sidebar-sep">Navigator · IA</div>
 
-        <button class="sc-btn" data-prompt="Muéstrame los acuerdos analizados por Navigator con su estado, partes involucradas y fechas clave.">
-          <span class="icon">
-            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-          </span>
-          <div class="text">
-            <h4>Acuerdos Navigator</h4>
-            <p>Contratos analizados por IA</p>
-          </div>
+        <button class="sc-btn" data-prompt="Consulta Navigator y muéstrame los acuerdos activos. Incluye contraparte, tipo de acuerdo, fecha de inicio y vencimiento.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+          <div class="text"><h4>Acuerdos Navigator</h4><p>Repositorio inteligente</p></div>
         </button>
 
-        <button class="sc-btn" data-prompt="Lista los workflows disponibles en Maestro y dime cuáles están activos o pausados.">
-          <span class="icon">
-            <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>
-          </span>
-          <div class="text">
-            <h4>Workflows Maestro</h4>
-            <p>Automatizaciones activas</p>
-          </div>
+        <button class="sc-btn" data-prompt="¿Tengo acuerdos próximos a vencer en los próximos 60 días? Analiza Navigator y muéstrame las fechas críticas y partes involucradas.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+          <div class="text"><h4>Vencimientos próximos</h4><p>Riesgo contractual</p></div>
         </button>
 
-        <button class="sc-btn" data-prompt="Inicia el primer workflow disponible en Maestro con datos de prueba para un contrato de servicios.">
-          <span class="icon">
-            <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </span>
-          <div class="text">
-            <h4>Ejecutar workflow</h4>
-            <p>Trigger en Maestro</p>
-          </div>
+        <div class="sidebar-sep">Maestro · Workflows</div>
+
+        <button class="sc-btn" data-prompt="Lista los workflows disponibles en Maestro. Muéstrame su nombre, estado actual y cuántas instancias tiene cada uno.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></span>
+          <div class="text"><h4>Workflows Maestro</h4><p>Automatizaciones</p></div>
         </button>
 
-        <div class="sidebar-sep">Cuenta · Documentos</div>
-
-        <button class="sc-btn" data-prompt="Lista todos los documentos incluidos en el envelope más reciente con sus nombres y tipos.">
-          <span class="icon">
-            <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          </span>
-          <div class="text">
-            <h4>Documentos</h4>
-            <p>Del envelope más reciente</p>
-          </div>
+        <button class="sc-btn" data-prompt="Obtén los requisitos del primer workflow disponible en Maestro y luego inicia una nueva instancia con datos de prueba para un contrato de servicios.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></span>
+          <div class="text"><h4>Ejecutar workflow</h4><p>Trigger + parámetros</p></div>
         </button>
 
-        <button class="sc-btn" data-prompt="Muéstrame la información de la cuenta DocuSign activa: usuario, plan, configuración y métricas.">
-          <span class="icon">
-            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          </span>
-          <div class="text">
-            <h4>Info de cuenta</h4>
-            <p>Usuario y configuración</p>
-          </div>
+        <button class="sc-btn" data-prompt="Muéstrame todas las instancias de workflow activas en Maestro con su estado, paso actual y tiempo transcurrido.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
+          <div class="text"><h4>Instancias activas</h4><p>Estado en tiempo real</p></div>
         </button>
 
-        <button class="sc-btn" data-prompt="Muéstrame las instancias de workflow en ejecución actualmente y su estado detallado.">
-          <span class="icon">
-            <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          </span>
-          <div class="text">
-            <h4>Instancias activas</h4>
-            <p>Estado en tiempo real</p>
-          </div>
+        <div class="sidebar-sep">Admin</div>
+
+        <button class="sc-btn" data-prompt="Lista los documentos del envelope más reciente con nombres, tipos y número de páginas.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span>
+          <div class="text"><h4>Documentos</h4><p>Del envelope reciente</p></div>
+        </button>
+
+        <button class="sc-btn" data-prompt="Muéstrame la información completa de mi cuenta DocuSign: usuario activo, plan, configuración y permisos.">
+          <span class="icon"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          <div class="text"><h4>Info de cuenta</h4><p>Usuario y permisos</p></div>
         </button>
 
         <button class="sidebar-reset" id="btn-reset">Limpiar conversación</button>
@@ -1637,57 +1708,147 @@ body {
         <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
       </span>
       Herramientas MCP
+      <span class="tools-total">25 tools</span>
     </div>
     <div class="panel-divider"></div>
-    <div class="tools-grid">
-      <div class="tool-card tool-card-read">
-        <div class="tc-top">
-          <span class="tc-name">search_envelopes</span>
-          <span class="tc-cat cat-read">read</span>
-        </div>
-        <div class="tc-desc">Busca sobres por texto, estado o rango de fecha.</div>
+
+    <!-- eSignature -->
+    <div class="tools-section">
+      <div class="tools-section-label">
+        <span class="tsl-dot tsl-blue"></span> eSignature
+        <span class="tsl-count">11 herramientas</span>
       </div>
-      <div class="tool-card tool-card-read">
-        <div class="tc-top">
-          <span class="tc-name">get_envelope</span>
-          <span class="tc-cat cat-read">read</span>
+      <div class="tools-grid">
+        <div class="tool-card tool-card-read">
+          <div class="tc-top"><span class="tc-name">getEnvelopes</span><span class="tc-cat cat-read">read</span></div>
+          <div class="tc-desc">Busca y filtra envelopes por estado, fecha o término libre.</div>
         </div>
-        <div class="tc-desc">Obtiene detalles completos de un envelope por ID.</div>
+        <div class="tool-card tool-card-read">
+          <div class="tc-top"><span class="tc-name">getEnvelope</span><span class="tc-cat cat-read">read</span></div>
+          <div class="tc-desc">Detalles completos de un envelope: firmantes, documentos y estado.</div>
+        </div>
+        <div class="tool-card tool-card-read">
+          <div class="tc-top"><span class="tc-name">listRecipients</span><span class="tc-cat cat-read">read</span></div>
+          <div class="tc-desc">Firmantes y destinatarios con su estado de firma actual.</div>
+        </div>
+        <div class="tool-card tool-card-read">
+          <div class="tc-top"><span class="tc-name">getTemplates</span><span class="tc-cat cat-read">read</span></div>
+          <div class="tc-desc">Templates disponibles con filtros opcionales por nombre.</div>
+        </div>
+        <div class="tool-card tool-card-read">
+          <div class="tc-top"><span class="tc-name">listEnvelopeDocuments</span><span class="tc-cat cat-read">read</span></div>
+          <div class="tc-desc">Documentos en un envelope con nombres, tipos y metadatos.</div>
+        </div>
+        <div class="tool-card tool-card-write">
+          <div class="tc-top"><span class="tc-name">createEnvelope</span><span class="tc-cat cat-write">write</span></div>
+          <div class="tc-desc">Crea un envelope desde cero con documentos propios y firmantes.</div>
+        </div>
+        <div class="tool-card tool-card-write">
+          <div class="tc-top"><span class="tc-name">createEnvelopeFromTemplate</span><span class="tc-cat cat-write">write</span></div>
+          <div class="tc-desc">Crea y envía desde template con firmantes y subject definidos.</div>
+        </div>
+        <div class="tool-card tool-card-write">
+          <div class="tc-top"><span class="tc-name">sendReminder</span><span class="tc-cat cat-write">write</span></div>
+          <div class="tc-desc">Envía recordatorio a firmantes pendientes en un envelope.</div>
+        </div>
+        <div class="tool-card tool-card-write">
+          <div class="tc-top"><span class="tc-name">updateEnvelope</span><span class="tc-cat cat-write">write</span></div>
+          <div class="tc-desc">Actualiza subject, expiry o estado de un envelope existente.</div>
+        </div>
+        <div class="tool-card tool-card-write">
+          <div class="tc-top"><span class="tc-name">updateEnvelopeRecipients</span><span class="tc-cat cat-write">write</span></div>
+          <div class="tc-desc">Modifica email, nombre o rol de destinatarios en el envelope.</div>
+        </div>
+        <div class="tool-card tool-card-write">
+          <div class="tc-top"><span class="tc-name">updateEnvelopeTabs</span><span class="tc-cat cat-write">write</span></div>
+          <div class="tc-desc">Actualiza campos de formulario y tabs en documentos del envelope.</div>
+        </div>
       </div>
-      <div class="tool-card tool-card-read">
-        <div class="tc-top">
-          <span class="tc-name">get_envelope_recipients</span>
-          <span class="tc-cat cat-read">read</span>
-        </div>
-        <div class="tc-desc">Lista firmantes y destinatarios con su estado actual.</div>
+    </div>
+
+    <!-- Navigator -->
+    <div class="tools-section">
+      <div class="tools-section-label">
+        <span class="tsl-dot tsl-yellow"></span> Navigator · Inteligencia de Acuerdos
+        <span class="tsl-count">2 herramientas</span>
       </div>
-      <div class="tool-card tool-card-read">
-        <div class="tc-top">
-          <span class="tc-name">list_templates</span>
-          <span class="tc-cat cat-read">read</span>
+      <div class="tools-grid">
+        <div class="tool-card tool-card-navigator">
+          <div class="tc-top"><span class="tc-name">getAllAgreements</span><span class="tc-cat cat-navigator">navigator</span></div>
+          <div class="tc-desc">Consulta el repositorio de acuerdos con filtros por contraparte, tipo o fecha.</div>
         </div>
-        <div class="tc-desc">Lista templates disponibles con filtro opcional por nombre.</div>
+        <div class="tool-card tool-card-navigator">
+          <div class="tc-top"><span class="tc-name">getAgreementDetails</span><span class="tc-cat cat-navigator">navigator</span></div>
+          <div class="tc-desc">Metadatos estructurados, cláusulas, partes y fechas clave de un acuerdo.</div>
+        </div>
       </div>
-      <div class="tool-card tool-card-write">
-        <div class="tc-top">
-          <span class="tc-name">create_envelope_from_template</span>
-          <span class="tc-cat cat-write">write</span>
-        </div>
-        <div class="tc-desc">Crea y envía un envelope desde template con firmantes y subject.</div>
+    </div>
+
+    <!-- Maestro -->
+    <div class="tools-section">
+      <div class="tools-section-label">
+        <span class="tsl-dot tsl-purple"></span> Maestro · Automatización de Workflows
+        <span class="tsl-count">8 herramientas</span>
       </div>
-      <div class="tool-card tool-card-write">
-        <div class="tc-top">
-          <span class="tc-name">send_reminder</span>
-          <span class="tc-cat cat-write">write</span>
+      <div class="tools-grid">
+        <div class="tool-card tool-card-maestro-read">
+          <div class="tc-top"><span class="tc-name">getWorkflowsList</span><span class="tc-cat cat-maestro-read">maestro</span></div>
+          <div class="tc-desc">Lista workflows disponibles en Maestro con su estado (activo/pausado).</div>
         </div>
-        <div class="tc-desc">Envía recordatorio de firma a firmantes pendientes.</div>
+        <div class="tool-card tool-card-maestro-read">
+          <div class="tc-top"><span class="tc-name">getWorkflowTriggerRequirements</span><span class="tc-cat cat-maestro-read">maestro</span></div>
+          <div class="tc-desc">Parámetros requeridos para iniciar una instancia de workflow.</div>
+        </div>
+        <div class="tool-card tool-card-maestro-read">
+          <div class="tc-top"><span class="tc-name">getWorkflowInstancesList</span><span class="tc-cat cat-maestro-read">maestro</span></div>
+          <div class="tc-desc">Instancias en ejecución con estado, paso actual y progreso.</div>
+        </div>
+        <div class="tool-card tool-card-maestro-read">
+          <div class="tc-top"><span class="tc-name">getWorkflowInstance</span><span class="tc-cat cat-maestro-read">maestro</span></div>
+          <div class="tc-desc">Detalles de una instancia: pasos, participantes y estado actual.</div>
+        </div>
+        <div class="tool-card tool-card-maestro-write">
+          <div class="tc-top"><span class="tc-name">triggerWorkflow</span><span class="tc-cat cat-maestro-write">write</span></div>
+          <div class="tc-desc">Inicia una nueva instancia de workflow con parámetros requeridos.</div>
+        </div>
+        <div class="tool-card tool-card-maestro-write">
+          <div class="tc-top"><span class="tc-name">pauseNewWorkflowInstances</span><span class="tc-cat cat-maestro-write">write</span></div>
+          <div class="tc-desc">Pausa la creación de nuevas instancias de un workflow específico.</div>
+        </div>
+        <div class="tool-card tool-card-maestro-write">
+          <div class="tc-top"><span class="tc-name">resumeWorkflow</span><span class="tc-cat cat-maestro-write">write</span></div>
+          <div class="tc-desc">Reactiva un workflow pausado permitiendo nuevas instancias.</div>
+        </div>
+        <div class="tool-card tool-card-danger">
+          <div class="tc-top"><span class="tc-name">cancelWorkflowInstance</span><span class="tc-cat cat-danger">danger</span></div>
+          <div class="tc-desc">Cancela una instancia activa de workflow. Acción irreversible.</div>
+        </div>
       </div>
-      <div class="tool-card tool-card-danger">
-        <div class="tc-top">
-          <span class="tc-name">void_envelope</span>
-          <span class="tc-cat cat-danger">danger</span>
+    </div>
+
+    <!-- Admin -->
+    <div class="tools-section">
+      <div class="tools-section-label">
+        <span class="tsl-dot tsl-teal"></span> Admin · Cuenta y Usuarios
+        <span class="tsl-count">4 herramientas</span>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-card tool-card-admin">
+          <div class="tc-top"><span class="tc-name">getAccount</span><span class="tc-cat cat-admin">admin</span></div>
+          <div class="tc-desc">Configuración, plan y detalles completos de la cuenta DocuSign.</div>
         </div>
-        <div class="tc-desc">Anula un envelope no completado. Requiere razón de anulación.</div>
+        <div class="tool-card tool-card-admin">
+          <div class="tc-top"><span class="tc-name">getUserInfo</span><span class="tc-cat cat-admin">admin</span></div>
+          <div class="tc-desc">Perfil, permisos y datos del usuario autenticado actualmente.</div>
+        </div>
+        <div class="tool-card tool-card-admin">
+          <div class="tc-top"><span class="tc-name">getUser</span><span class="tc-cat cat-admin">admin</span></div>
+          <div class="tc-desc">Información detallada de un usuario específico por ID.</div>
+        </div>
+        <div class="tool-card tool-card-admin">
+          <div class="tc-top"><span class="tc-name">getUsers</span><span class="tc-cat cat-admin">admin</span></div>
+          <div class="tc-desc">Lista todos los usuarios de la organización con sus roles.</div>
+        </div>
       </div>
     </div>
 
@@ -1696,7 +1857,7 @@ body {
       <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
     </button>
     <div class="code-box">
-      <span class="cc">// Configuración del MCP Server en un cliente compatible</span><br>
+      <span class="cc">// Configuración del MCP Server — compatible con Claude, Copilot, VS Code y más</span><br>
       {<br>
       &nbsp;&nbsp;<span class="ck">"mcpServers"</span>: {<br>
       &nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"docusign"</span>: {<br>
@@ -1704,85 +1865,159 @@ body {
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"name"</span>: <span class="cs">"docusign-iam"</span>,<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"auth"</span>: {<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"type"</span>: <span class="cs">"oauth2"</span>,<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"scopes"</span>: [<span class="cs">"signature"</span>, <span class="cs">"impersonation"</span>]<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"scopes"</span>: [<span class="cs">"signature"</span>, <span class="cs">"adm_store_unified_repo_read"</span>, <span class="cs">"aow_manage"</span>]<br>
       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
       &nbsp;&nbsp;&nbsp;&nbsp;}<br>
       &nbsp;&nbsp;}<br>
       }
     </div>
-    </div><!-- /code-box-wrap -->
+    </div>
   </div>
 
-  <!-- ═══ ARCHITECTURE ═══ -->
+  <!-- ═══ CASES ═══ -->
+  <div class="panel" id="panel-cases">
+    <div class="panel-heading" style="margin-bottom:4px">
+      <span class="panel-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </span>
+      Casos de Uso IAM
+    </div>
+    <div class="panel-divider"></div>
+    <div class="cases-grid">
+
+      <div class="case-card">
+        <div class="case-header">
+          <div class="case-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div>
+            <div class="case-title">Cumplimiento Regulatorio</div>
+            <div class="case-sub">Detecta acuerdos impactados por nuevas normas</div>
+          </div>
+          <span class="case-badge">Navigator + Maestro</span>
+        </div>
+        <div class="case-prompt">"¿Tengo contratos activos con proveedores afectados por la nueva regulación? Identifica los acuerdos de riesgo e inicia el proceso de enmienda."</div>
+        <div class="case-flow">
+          <div class="case-step step-navigator"><span class="cs-tool">getAllAgreements</span><span class="cs-desc">Filtra por tipo y parte</span></div>
+          <div class="case-arrow">→</div>
+          <div class="case-step step-navigator"><span class="cs-tool">getAgreementDetails</span><span class="cs-desc">Analiza cláusulas</span></div>
+          <div class="case-arrow">→</div>
+          <div class="case-step step-maestro"><span class="cs-tool">triggerWorkflow</span><span class="cs-desc">Inicia enmienda</span></div>
+        </div>
+        <div class="case-outcome"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Identifica contratos en riesgo y activa el flujo de revisión automáticamente, con trazabilidad completa.</div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-header">
+          <div class="case-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div>
+            <div class="case-title">Onboarding Contractual</div>
+            <div class="case-sub">Contratación automatizada de extremo a extremo</div>
+          </div>
+          <span class="case-badge">eSignature + Maestro</span>
+        </div>
+        <div class="case-prompt">"Usa el template de NDA para enviar contrato a nuevo cliente, y una vez firmado, inicia el workflow de onboarding en Maestro."</div>
+        <div class="case-flow">
+          <div class="case-step step-read"><span class="cs-tool">getTemplates</span><span class="cs-desc">Selecciona template</span></div>
+          <div class="case-arrow">→</div>
+          <div class="case-step step-write"><span class="cs-tool">createEnvelopeFromTemplate</span><span class="cs-desc">Envía a firma</span></div>
+          <div class="case-arrow">→</div>
+          <div class="case-step step-maestro"><span class="cs-tool">triggerWorkflow</span><span class="cs-desc">Inicia onboarding</span></div>
+        </div>
+        <div class="case-outcome"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Ciclo completo de contratación en lenguaje natural: desde el template hasta el primer paso post-firma.</div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-header">
+          <div class="case-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div>
+            <div class="case-title">Gestión de Vencimientos</div>
+            <div class="case-sub">Detecta contratos próximos a expirar</div>
+          </div>
+          <span class="case-badge">Navigator + eSign</span>
+        </div>
+        <div class="case-prompt">"¿Qué acuerdos vencen en los próximos 60 días? Muéstrame los detalles y envía recordatorio a las partes involucradas."</div>
+        <div class="case-flow">
+          <div class="case-step step-navigator"><span class="cs-tool">getAllAgreements</span><span class="cs-desc">Filtra por fecha expiry</span></div>
+          <div class="case-arrow">→</div>
+          <div class="case-step step-navigator"><span class="cs-tool">getAgreementDetails</span><span class="cs-desc">Partes y cláusulas</span></div>
+          <div class="case-arrow">→</div>
+          <div class="case-step step-write"><span class="cs-tool">sendReminder</span><span class="cs-desc">Alerta a firmantes</span></div>
+        </div>
+        <div class="case-outcome"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Visibilidad proactiva sobre riesgo contractual. Alerta automática a las partes antes del vencimiento.</div>
+      </div>
+
+      <div class="case-card">
+        <div class="case-header">
+          <div class="case-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div>
+            <div class="case-title">Dashboard Ejecutivo en Vivo</div>
+            <div class="case-sub">Estado completo de la operación de acuerdos</div>
+          </div>
+          <span class="case-badge">Todos los productos</span>
+        </div>
+        <div class="case-prompt">"Dame un resumen ejecutivo: acuerdos activos, firmas pendientes, workflows corriendo y cualquier item de atención urgente."</div>
+        <div class="case-flow">
+          <div class="case-step step-read"><span class="cs-tool">getEnvelopes</span><span class="cs-desc">Firmas pendientes</span></div>
+          <div class="case-arrow">→</div>
+          <div class="case-step step-navigator"><span class="cs-tool">getAllAgreements</span><span class="cs-desc">Estado Navigator</span></div>
+          <div class="case-arrow">→</div>
+          <div class="case-step step-maestro"><span class="cs-tool">getWorkflowInstancesList</span><span class="cs-desc">Workflows activos</span></div>
+        </div>
+        <div class="case-outcome"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Vista 360° de toda la operación contractual en una sola consulta de lenguaje natural. Sin dashboards estáticos.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ PLATFORM / ARCHITECTURE ═══ -->
   <div class="panel" id="panel-arch">
     <div class="panel-heading" style="margin-bottom:4px">
       <span class="panel-icon">
         <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
       </span>
-      Arquitectura MCP
+      Plataforma IAM
     </div>
     <div class="panel-divider"></div>
     <div class="arch-flow">
       <div class="arch-node">
-        <div class="arch-node-header">
-          <span class="arch-badge">1</span>
-          <h3>Usuario / Agente de IA</h3>
-        </div>
-        <p>Claude, ChatGPT, Copilot, VS Code, agentes custom</p>
+        <div class="arch-node-header"><span class="arch-badge">1</span><h3>Agente de IA</h3></div>
+        <p>Claude · ChatGPT · Microsoft Copilot · VS Code · Agentes custom</p>
       </div>
-      <div class="arch-conn"><span class="cl">MCP Protocol · JSON-RPC</span></div>
+      <div class="arch-conn"><span class="cl">MCP Protocol · JSON-RPC 2.0 · Standard Transport</span></div>
       <div class="arch-node">
-        <div class="arch-node-header">
-          <span class="arch-badge">2</span>
-          <h3>DocuSign MCP Server</h3>
-        </div>
-        <p>OAuth 2.0 · Scopes granulares · Tools, Resources, Prompts</p>
+        <div class="arch-node-header"><span class="arch-badge">2</span><h3>DocuSign MCP Server (Beta)</h3></div>
+        <p>OAuth 2.0 JWT · 25 herramientas · Scopes granulares · Rate limiting · Audit log</p>
       </div>
-      <div class="arch-conn"><span class="cl">REST API</span></div>
+      <div class="arch-conn"><span class="cl">HTTPS REST · TLS 1.3</span></div>
       <div class="arch-node">
-        <div class="arch-node-header">
-          <span class="arch-badge">3</span>
-          <h3>DocuSign APIs</h3>
-        </div>
-        <p>eSignature · Navigator · Maestro · Admin · Identify</p>
+        <div class="arch-node-header"><span class="arch-badge">3</span><h3>DocuSign APIs</h3></div>
+        <p>eSignature API · Navigator API · Maestro API · Admin API</p>
       </div>
-      <div class="arch-conn"><span class="cl">Plataforma</span></div>
+      <div class="arch-conn"><span class="cl">IAM Platform Layer</span></div>
       <div class="arch-node">
-        <div class="arch-node-header">
-          <span class="arch-badge">4</span>
-          <h3>DocuSign IAM Platform</h3>
-        </div>
-        <p>Acuerdos · Workflows · Análisis IA · Templates · Audit</p>
+        <div class="arch-node-header"><span class="arch-badge">4</span><h3>DocuSign IAM Platform</h3></div>
+        <p>Intelligent Agreement Management · Workflows · AI Analysis · Templates · Audit Trail</p>
       </div>
     </div>
     <div class="benefits">
       <div class="benefit">
-        <div class="benefit-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        </div>
-        <h4>Protocolo estándar abierto</h4>
-        <p>Un adaptador universal. Sin integraciones punto a punto.</p>
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <h4>Protocolo abierto</h4>
+        <p>Un adaptador universal. Sin integraciones punto a punto. Compatible con cualquier cliente MCP.</p>
       </div>
       <div class="benefit">
-        <div class="benefit-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </div>
-        <h4>Seguridad OAuth 2.0</h4>
-        <p>Scopes granulares. JWT para operación headless.</p>
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <h4>OAuth 2.0 + JWT</h4>
+        <p>Scopes granulares por producto. JWT server-to-server para operación headless y automática.</p>
       </div>
       <div class="benefit">
-        <div class="benefit-icon">
-          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        </div>
-        <h4>Sin código custom</h4>
-        <p>Cualquier cliente MCP compatible se conecta al instante.</p>
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h4>Guardrails y auditoría</h4>
+        <p>Agentes operan dentro de playbooks definidos. Acciones auditables con razonamiento citable.</p>
       </div>
       <div class="benefit">
-        <div class="benefit-icon">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </div>
-        <h4>Extensible</h4>
-        <p>Combina con Extension Apps, Maestro y APIs propias.</p>
+        <div class="benefit-icon"><svg viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg></div>
+        <h4>Extensible con Iris</h4>
+        <p>Combina con Iris Agents, Agent Studio, Extension Apps y Maestro para flujos end-to-end.</p>
       </div>
     </div>
   </div>

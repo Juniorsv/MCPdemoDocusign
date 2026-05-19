@@ -113,7 +113,7 @@ async function checkStatus() {
 }
 
 // ─── Metrics ticker + count-up ──────────────────────────────
-const baseMetrics = { envelopes: 142, pending: 38, idv: 1247, workflows: 7 };
+const baseMetrics = { envelopes: 142, pending: 38, idv: 7, workflows: 25 };
 
 function countUp(elId, target, duration) {
   const el = document.getElementById(elId);
@@ -134,19 +134,16 @@ function startMetricsTicker() {
   setTimeout(() => {
     countUp('metric-envelopes', baseMetrics.envelopes, 1100);
     countUp('metric-pending',   baseMetrics.pending,    850);
-    countUp('metric-idv',       baseMetrics.idv,       1400);
-    countUp('metric-workflows', baseMetrics.workflows,  600);
+    countUp('metric-idv',       baseMetrics.idv,        700);
+    countUp('metric-workflows', baseMetrics.workflows,  900);
   }, 750);
 
-  // Live ticker
+  // Live ticker — only acuerdos + pendientes fluctuate
   setInterval(() => {
     const env = baseMetrics.envelopes + Math.floor(Math.random() * 4) - 1;
-    const pen = baseMetrics.pending  + Math.floor(Math.random() * 3) - 1;
-    const idv = baseMetrics.idv      + Math.floor(Math.random() * 5);
+    const pen = baseMetrics.pending   + Math.floor(Math.random() * 3) - 1;
     document.getElementById('metric-envelopes').textContent = env;
     document.getElementById('metric-pending').textContent   = pen;
-    document.getElementById('metric-idv').textContent       = idv.toLocaleString('es-MX');
-    baseMetrics.idv = idv;
   }, 8000);
 }
 

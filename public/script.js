@@ -218,7 +218,7 @@ async function sendMessage() {
     const msg = err.name === 'AbortError'
       ? 'La solicitud tardó demasiado. Verifica tu conexión e intenta de nuevo.'
       : 'No se pudo completar la solicitud. Intenta de nuevo.';
-    addMsg('assistant', '⚠️ ' + msg);
+    addMsg('assistant', msg, true);
   }
 
   isProcessing = false;
@@ -254,7 +254,7 @@ function showToast(msg, duration = 2500) {
 }
 
 // ─── Chat helpers ────────────────────────────────────────────
-function addMsg(role, text) {
+function addMsg(role, text, isError = false) {
   const div  = document.createElement('div');
   const time = getTimestamp();
 
@@ -272,7 +272,7 @@ function addMsg(role, text) {
             <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           </button>
         </div>
-        ${formatted}
+        <div class="response-text${isError ? ' response-error' : ''}">${isError ? '⚠️ ' : ''}${formatted}</div>
         <div class="msg-time">${time}</div>
       </div>`;
     div.querySelector('.copy-btn').addEventListener('click', function () {

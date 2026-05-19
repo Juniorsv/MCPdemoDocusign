@@ -1330,6 +1330,38 @@ body {
   background: linear-gradient(to bottom,#353550,#252535) !important;
   border-radius: 3px !important;
 }
+
+/* ─── Sidebar: scrollable with more scenarios ─── */
+.demo-grid { align-items: start !important; }
+.sidebar { overflow-y: auto; max-height: 680px; }
+.sidebar-sep {
+  font-size: 9px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--ink-4);
+  margin: 14px 4px 8px; display: flex; align-items: center; gap: 8px;
+}
+.sidebar-sep::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(to right, var(--border-2), transparent);
+}
+
+/* ─── AI response: distinctive typography ─── */
+.msg-ai .bubble {
+  border-left: 2px solid rgba(100,140,255,.2) !important;
+}
+.response-text {
+  font-family: 'New York', 'Georgia', 'Cambria', 'Book Antiqua', ui-serif, serif;
+  font-size: 14px;
+  line-height: 1.80;
+  letter-spacing: 0.015em;
+  color: #c4cfe8;
+  margin-top: 2px;
+}
+.response-text.response-error {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--danger);
+  font-style: italic;
+}
 </style>
 </head>
 <body>
@@ -1456,6 +1488,70 @@ body {
           <div class="text">
             <h4>Recordatorio</h4>
             <p>A firmantes pendientes</p>
+          </div>
+        </button>
+
+        <div class="sidebar-sep">Navigator · Maestro</div>
+
+        <button class="sc-btn" data-prompt="Muéstrame los acuerdos analizados por Navigator con su estado, partes involucradas y fechas clave.">
+          <span class="icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </span>
+          <div class="text">
+            <h4>Acuerdos Navigator</h4>
+            <p>Contratos analizados por IA</p>
+          </div>
+        </button>
+
+        <button class="sc-btn" data-prompt="Lista los workflows disponibles en Maestro y dime cuáles están activos o pausados.">
+          <span class="icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>
+          </span>
+          <div class="text">
+            <h4>Workflows Maestro</h4>
+            <p>Automatizaciones activas</p>
+          </div>
+        </button>
+
+        <button class="sc-btn" data-prompt="Inicia el primer workflow disponible en Maestro con datos de prueba para un contrato de servicios.">
+          <span class="icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </span>
+          <div class="text">
+            <h4>Ejecutar workflow</h4>
+            <p>Trigger en Maestro</p>
+          </div>
+        </button>
+
+        <div class="sidebar-sep">Cuenta · Documentos</div>
+
+        <button class="sc-btn" data-prompt="Lista todos los documentos incluidos en el envelope más reciente con sus nombres y tipos.">
+          <span class="icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </span>
+          <div class="text">
+            <h4>Documentos</h4>
+            <p>Del envelope más reciente</p>
+          </div>
+        </button>
+
+        <button class="sc-btn" data-prompt="Muéstrame la información de la cuenta DocuSign activa: usuario, plan, configuración y métricas.">
+          <span class="icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </span>
+          <div class="text">
+            <h4>Info de cuenta</h4>
+            <p>Usuario y configuración</p>
+          </div>
+        </button>
+
+        <button class="sc-btn" data-prompt="Muéstrame las instancias de workflow en ejecución actualmente y su estado detallado.">
+          <span class="icon">
+            <svg class="svg-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </span>
+          <div class="text">
+            <h4>Instancias activas</h4>
+            <p>Estado en tiempo real</p>
           </div>
         </button>
 
